@@ -39,7 +39,10 @@ module Api
       def destroy
         @trainer_workout.destroy!
       end
-      
+
+      def trainer_workout_params
+        params.require(:trainer_workout).permit(:trainer_id, :workout_id)
+      end
     end
   end
 end

@@ -1,11 +1,12 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
-      resources :workouts
-      resources :trainees
-      resources :trainers
-      resources :trainee_workouts
-      resources :trainer_workouts
+      resources :workouts, only: [:index, :show, :create, :update, :destroy]
+      resources :workouts, only: [:index, :show, :create, :update, :destroy]
+      resources :trainers, only: [:index, :show, :create, :update, :destroy]
+      resources :trainees, only: [:index, :show, :create, :update, :destroy]
+      resources :trainee_workouts, only: [:index, :show, :create, :update, :destroy]
+      resources :trainer_workouts, only: [:index, :show, :create, :update, :destroy]
     end
   end
 

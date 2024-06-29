@@ -1,0 +1,61 @@
+<template>
+    <div class="main-container">
+        <div class="title">
+            <h1>Trainer Login</h1>
+        </div>
+        <div class="dropdown">
+            <TrainerDropdown :trainers="trainers" @select-trainer="updateSelectedTrainer" />
+            <div class="select-button">
+                <button class="button" @click="setTrainerLoginDetails">Select</button>
+            </div>
+        </div>
+
+
+    </div>
+</template>
+<script setup>
+import { ref, onMounted, watch } from "vue";
+import { useRouter } from "vue-router";
+import TrainerDropdown from "../TrainerDropdown/TrainerDropdown.vue";
+import { getTrainers } from '../../../../Utils/apiCalls';
+
+const router = useRouter();
+
+const trainers = ref([{}]);
+const selectedTrainer = ref('');
+
+const updateSelectedTrainer = (trainer) => {
+    selectedTrainer.value = trainer;
+};
+
+const getTrainerList = async () => {
+    const data = await getTrainers();
+    trainers.value = data;
+};
+
+
+const setTrainerLoginDetails = () => {
+    localStorage.setItem('Trainer', selectedTrainer.value)
+    router.push('/trainerdashboard');
+
+}
+
+onMounted(() => {
+    if (localStorage.getItem('Trainer')) {
+        router.push('/trainerdashboard');
+    }
+   getTrainerList();
+});
+
+
+</script>
+
+<style scoped>
+.title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+</style>

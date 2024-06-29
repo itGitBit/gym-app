@@ -1,0 +1,126 @@
+
+
+body {
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  background-color: #f4d03f;
+  color: #209cee;
+}
+
+.logo {
+  width: 192px;
+  height: 192px;
+  margin: 0 auto;
+  display: block;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+button {
+  margin: 20px;
+  font-weight: light;
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #209cee;
+  color: white;
+  cursor: pointer;
+  /* box-shadow: white 2px 2px 2px; */
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background-color: hwb(204 12% 19%);
+  /* font-size: 1.4rem; */
+  /* box-shadow: white 5px 5px 5px; */
+  box-shadow: 5px 10px 8px rgba(0, 0, 0, 0.2);
+  transform: scale(1.1);
+}
+
+input {
+  padding: 10px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 5px;
+  margin-left: 10px;
+  background-color: #209cee;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1) sepia(1) saturate(5) hue-rotate(175deg);
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(1) sepia(1) saturate(5) hue-rotate(175deg);
+}
+
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+input:focus {
+  border: 1px solid white;
+  box-shadow: 5px 10px 8px rgba(0, 0, 0, 0.2);
+  transform: scale(1.1);
+}
+
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.dropdown {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.dropdown-select {
+  padding: 10px 20px;
+  font-size: 1.2rem;
+
+  border: none;
+  border-radius: 5px;
+  background-color: #209CEE;
+  color: white;
+  cursor: pointer;
+  appearance: hidden;
+
+}
+
+.dropdown-option {
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #dcb107;
+  color: white;
+  cursor: pointer;
+}
+
+.select-button {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}

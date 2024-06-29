@@ -61,3 +61,5 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_19_185037) do
   add_foreign_key "trainer_workouts", "trainers"
   add_foreign_key "trainer_workouts", "workouts"
 end
+
+
