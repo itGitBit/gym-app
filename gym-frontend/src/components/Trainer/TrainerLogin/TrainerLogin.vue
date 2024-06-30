@@ -36,13 +36,13 @@ const getTrainerList = async () => {
 
 const setTrainerLoginDetails = () => {
     localStorage.setItem('Trainer', selectedTrainer.value)
-    router.push('/trainerdashboard');
+    router.push('/trainer-dashboard');
 
 }
 
 onMounted(() => {
     if (localStorage.getItem('Trainer')) {
-        router.push('/trainerdashboard');
+        router.push('/trainer-dashboard');
     }
    getTrainerList();
 });

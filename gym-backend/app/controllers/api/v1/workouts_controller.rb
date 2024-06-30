@@ -5,8 +5,11 @@ module Api
 
       # GET /workouts
       def index
-        @workouts = Workout.all
-        render json: @workouts
+        @workouts = Workout.includes(:trainer_workouts, :trainee_workouts).all
+        render json: @workouts.as_json(include: {
+                                  trainer_workouts: { include: :trainer },
+                                  trainee_workouts: { include: :trainee },
+                                })
       end
 
       # GET /workouts/1
@@ -23,7 +26,8 @@ module Api
         if @workout.save
           create_trainer_workouts(@workout, trainer_ids)
           create_trainee_workouts(@workout, trainee_ids)
-          render json: @workout, status: :created, location: @workout
+          update_last_workout_date(trainee_ids, @workout.date)
+          render json: @workout, status: :created, location: url_for([:api, :v1, @workout])
         else
           render json: @workout.errors.full_messages, status: :unprocessable_entity
         end
@@ -32,6 +36,11 @@ module Api
       # PUT /workouts/1
       def update
         if @workout.update(workout_params.except(:trainer_ids, :trainee_ids))
+          @workout.trainer_workouts.destroy_all
+          @workout.trainee_workouts.destroy_all
+          create_trainer_workouts(@workout, workout_params[:trainer_ids])
+          create_trainee_workouts(@workout, workout_params[:trainee_ids])
+          update_last_workout_date(workout_params[:trainee_ids], @workout.date)
           render json: @workout
         else
           render json: @workout.errors, status: :unprocessable_entity
@@ -42,6 +51,20 @@ module Api
       def destroy
         @workout.destroy
         head :no_content
+      end
+
+      # GET /workouts/month/:year/:month
+      def month_workouts
+        year = params[:year].to_i
+        month = params[:month].to_i
+        start_date = Date.new(year, month, 1)
+        end_date = start_date.end_of_month
+
+        workouts = Workout.where(date: start_date..end_date)
+        render json: workouts.as_json(include: {
+          trainer_workouts: { include: :trainer },
+          trainee_workouts: { include: :trainee },
+        })
       end
 
       private
@@ -72,6 +95,15 @@ module Api
 
       def workout_params
         params.require(:workout).permit(:date, :start_time, :duration_in_minutes, trainer_ids: [], trainee_ids: [])
+      end
+
+      def update_last_workout_date(trainee_ids, workout_date)
+        trainee_ids.each do |trainee_id|
+          trainee = Trainee.find(trainee_id)
+          if trainee.last_workout_date.nil? || trainee.last_workout_date < workout_date
+            trainee.update(last_workout_date: workout_date)
+          end
+        end
       end
     end
   end

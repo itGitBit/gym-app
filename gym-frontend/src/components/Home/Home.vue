@@ -4,10 +4,10 @@
         <h2>Are you a trainer or a trainee?</h2>
 
         <span class="user-type-btn">
-            <RouterLink to="/trainerlogin"><button>Trainer</button></RouterLink>
+            <RouterLink to="/trainer-login"><button>Trainer</button></RouterLink>
         </span>
         <span class="user-type-btn">
-            <RouterLink to="/traineelogin"><button>Trainee</button></RouterLink>
+            <RouterLink to="/trainee-login"><button>Trainee</button></RouterLink>
         </span>
     </div>
 </template>

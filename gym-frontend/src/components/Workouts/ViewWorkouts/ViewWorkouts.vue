@@ -1,4 +1,10 @@
 <template>
+    <div v-if="workoutModalVisible">
+        <div class="overlay"></div>
+        <div class="workout-modal">
+            <WorkoutModal @closeModal="workoutModalVisible = false" :workouts="workoutsForDayRef" />
+        </div>
+    </div>
     <div class="monthly-calendar">
         <div class="header">
             <button @click="previousMonth">&lt;</button>
@@ -14,12 +20,9 @@
                 {{ day.day }}
                 <span @click="openWorkoutModal(day.workoutsForDay)" v-if="day.hasWorkout" class="workout-times">{{
                     day.startTime
-                }}</span>
+                    }}</span>
             </div>
         </div>
-    </div>
-    <div v-if="workoutModalVisible" class="workout-modal">
-        <WorkoutModal />
     </div>
 </template>
 
@@ -27,7 +30,7 @@
 import { ref, computed, onMounted } from 'vue';
 import dayjs from 'dayjs';
 import WorkoutModal from '../WorkoutModal/WorkoutModal.vue';
-import { getAllWorkouts } from '../../../../Utils/apiCalls'
+import { getMonthWorkouts } from '../../../../Utils/apiCalls'
 
 const currentMonth = ref(dayjs());
 const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -36,29 +39,25 @@ const workoutsForDayRef = ref([]);
 const workoutModalVisible = ref(false);
 
 const daysInMonth = computed(() => {
-    console.log(workouts.value);
     const firstDayOfMonth = currentMonth.value.startOf('month').day();
     const totalDaysInMonth = currentMonth.value.daysInMonth();
     const days = [];
-
     for (let i = 1; i <= totalDaysInMonth; i++) {
         const date = currentMonth.value.date(i);
-        const workoutsForDay = workouts.value.filter(workout => dayjs(workout.date).isSame(date, 'day'));
+        const workoutsForDay = workouts.value ? workouts.value.filter(workout => dayjs(workout.date).isSame(date, 'day')) : [];
         workoutsForDayRef.value = workoutsForDay;
         const hasWorkout = workoutsForDay.length > 0;
 
         const startTime = hasWorkout ? workoutsForDay.map(workout => workout.start_time.substring(0, workout.start_time.length - 3)).join(' ') : '';
-        // startTime = startTime.substring(0, startTime.length - 2);
 
         days.push({
-            date: date.format('YYYY-MM-DD'), // Store the date in a specific format if needed
+            date: date.format('YYYY-MM-DD'),
             day: i,
             hasWorkout: hasWorkout,
             startTime: startTime,
             workoutsForDay: workoutsForDay,
         });
     }
-
 
     for (let i = 0; i < firstDayOfMonth; i++) {
         days.unshift({
@@ -74,27 +73,33 @@ const daysInMonth = computed(() => {
 
 const setCurrent = () => {
     currentMonth.value = dayjs();
+    fetchMonthWorkouts();
 };
 
 const previousMonth = () => {
     currentMonth.value = currentMonth.value.subtract(1, 'month');
+    fetchMonthWorkouts();
 };
 
 const nextMonth = () => {
     currentMonth.value = currentMonth.value.add(1, 'month');
-};
-const parseWorkoutsToRef = async () => {
-    workouts.value = await getAllWorkouts();
+    fetchMonthWorkouts();
 };
 
-const openWorkoutModal = (day) => {
+
+const fetchMonthWorkouts = async () => {
+    const year = currentMonth.value.year();
+    const month = currentMonth.value.month() + 1;
+    workouts.value = await getMonthWorkouts(year, month);
+};
+
+const openWorkoutModal = (todaysWorkouts) => {
+    workoutsForDayRef.value = todaysWorkouts;
     workoutModalVisible.value = true;
-
-}
-
+};
 
 onMounted(() => {
-    parseWorkoutsToRef();
+    fetchMonthWorkouts();
 });
 </script>
 
@@ -102,7 +107,7 @@ onMounted(() => {
 .monthly-calendar {
     max-width: 600px;
     margin: auto;
-    font-family: Arial, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .header {
@@ -134,8 +139,7 @@ onMounted(() => {
 }
 
 .has-workout {
-    background-color: #209cee;
-    /* Example background color */
+    background-color: #95C03A;
     font-weight: bold;
     color: white;
 }
@@ -143,9 +147,31 @@ onMounted(() => {
 .workout-times {
     display: block;
     overflow: auto;
-    /* font-size: 0.7rem; */
     font-weight: lighter;
     overflow: hidden;
     cursor: pointer;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(82, 82, 82, 0.84);
+    z-index: 999;
+}
+
+.workout-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgb(110, 110, 110);
+    padding: 20px;
+    border: none;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    box-shadow: 5px 10px 8px rgba(0, 0, 0, 0.2);
 }
 </style>

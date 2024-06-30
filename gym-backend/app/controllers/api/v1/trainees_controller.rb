@@ -20,7 +20,7 @@ module Api
         @trainee = Trainee.new(trainee_params)
 
         if @trainee.save
-          render json: @trainee, status: :created, location: @trainee
+          render json: @trainee, status: :created, location: api_v1_trainee_path(@trainee)
         else
           render json: @trainee.errors, status: :unprocessable_entity
         end

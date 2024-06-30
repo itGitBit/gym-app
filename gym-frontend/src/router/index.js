@@ -4,6 +4,10 @@ import Home from "../components/Home/Home.vue";
 import TrainerLogin from "../components/Trainer/TrainerLogin/TrainerLogin.vue";
 import CreateWorkout from "../components/Workouts/CreateWorkout/CreateWorkout.vue";
 import ViewWorkouts from "../components/Workouts/ViewWorkouts/ViewWorkouts.vue";
+import UpdateTrainer from "../components/Trainer/UpdateTrainer/UpdateTrainer.vue";
+import TraineesPage from "../components/Trainee/TraineesPage/TraineesPage.vue";
+import CreateTrainee from "../components/Trainee/CreateTrainee/CreateTrainee.vue";
+import TraineeLogin from "../components/Trainee/TraineeLogin/TraineeLogin.vue";
 
 const routes = [
   {
@@ -12,24 +16,44 @@ const routes = [
     component: Home,
   },
   {
-    path: "/trainerlogin",
+    path: "/trainer-login",
     name: "TrainerLogin",
     component: TrainerLogin,
   },
   {
-    path: "/trainerdashboard",
+    path: "/trainer-dashboard",
     name: "TrainerDashboard",
     component: TrainerDashboard,
   },
   {
-    path: "/createworkout",
+    path: "/create-workout",
     name: "CreateWorkout",
     component: CreateWorkout,
   },
   {
-    path: '/workouts',
-    name: 'Workouts',
+    path: "/workouts",
+    name: "Workouts",
     component: ViewWorkouts,
+  },
+  {
+    path: "/update-trainer",
+    name: "UpdateTrainer",
+    component: UpdateTrainer,
+  },
+  {
+    path: "/trainees",
+    name: "Trainees",
+    component: TraineesPage,
+  },
+  {
+    path:'/add-trainee',
+    name:'AddTrainee',
+    component: CreateTrainee
+  },
+  {
+    path: '/trainee-login',
+    name: 'TraineeLogin',
+    component: TraineeLogin
   }
 ];
 const router = createRouter({

@@ -20,8 +20,8 @@
             </div>
             <div class="selected-bar">
 
-                <span @click="removeSelectedTrainer" class="trainer-badge" v-for="trainer in selectedTrainers"
-                    :key="trainer.id">{{ trainer.name }}</span>
+                <span @click="removeSelectedTrainer(trainer.id)" class="trainer-badge"
+                    v-for="trainer in selectedTrainers" :key="trainer.id">{{ trainer.name }}</span>
             </div>
             <div class="input">
                 <label for="traineeIds">Trainees: </label>
@@ -70,19 +70,20 @@ const onResetForm = () => {
     warning.value = '';
 };
 
-const onSubmit =async () => {
+const onSubmit = async () => {
     const workout = {
         workout: {
             date: formatDate(),
-            startTime: `${startTime.value}:00`,
-            durationInMinutes: durationInMinutes.value,
-            trainerIds: selectedTrainers.value.map(trainer => trainer.id),
-            traineeIds: selectedTrainees.value.map(trainee => trainee.id)
+            start_time: `${startTime.value}:00`,
+            duration_in_minutes: durationInMinutes.value,
+            trainer_ids: selectedTrainers.value.map(trainer => trainer.id),
+            trainee_ids: selectedTrainees.value.map(trainee => trainee.id)
         }
     }
-   const response = await createWorkout(workout);
-console.log(response);
-    
+    const response = await createWorkout(workout);
+    onResetForm();
+
+
 }
 
 const formatDate = () => {
@@ -120,8 +121,8 @@ const updateTraineeList = (event) => {
     warning.value = '';
 };
 
-const removeSelectedTrainer = (index) => {
-    selectedTrainers.value.splice(index, 1);
+const removeSelectedTrainer = (trainerId) => {
+    selectedTrainers.value = selectedTrainers.value.filter(trainer => trainer.id !== trainerId);
 };
 
 watch([selectedTrainers.value, selectedTrainees.value], () => {
@@ -164,48 +165,4 @@ onMounted(() => {
 
 </script>
 
-<style scoped>
-.input {
-    margin-top: 20px;
-}
-
-.reset-button {
-    background-color: #DB2219;
-    margin-top: 0;
-}
-
-.reset-button:hover {
-    background-color: #c21f16;
-    margin-top: 0;
-}
-
-
-
-.form-create {
-    display: flex;
-    flex-direction: column;
-}
-
-
-
-.selected-bar {
-    display: flex;
-    flex-wrap: wrap;
-    margin-top: 10px;
-}
-
-.warning {
-    color: #c21f16;
-    font-size: 1.2rem;
-    margin-top: 10px;
-}
-
-.trainer-badge {
-    padding: 5px;
-    margin: 5px;
-    background-color: #209CEE;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-}
-</style>
+<style scoped></style>
