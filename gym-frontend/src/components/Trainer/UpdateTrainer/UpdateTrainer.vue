@@ -30,7 +30,9 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import { updateTrainer } from '../../../../Utils/apiCalls';
+import { useUserStore } from '../../../stores/userStores.js';
 
+const store = useUserStore();
 const trainer = ref({})
 const isEditting = ref(false);
 
@@ -41,12 +43,15 @@ const onEditDetails = () => {
 const onSubmitForm = async () => {
     const response = await updateTrainer(trainer.value);
     trainer.value = response;
-    localStorage.setItem('Trainer', JSON.stringify(trainer.value));
+    store.setUser({
+        name: trainer.value.name, id: trainer.value.id, phone: trainer.value.phone, email: trainer.value.email, type: 'trainer'
+    })
+    console.log(JSON.stringify(store.getUser()))
     isEditting.value = false;
 }
 
 onMounted(() => {
-    trainer.value = JSON.parse(localStorage.getItem('Trainer'));
+    trainer.value = store.getUser();
 });
 </script>
 

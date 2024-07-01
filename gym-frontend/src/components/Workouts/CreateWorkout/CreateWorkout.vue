@@ -51,7 +51,11 @@
 import { ref, onMounted, watch } from 'vue';
 import TrainerDropdown from '../../Trainer/TrainerDropdown/TrainerDropdown.vue';
 import { createWorkout, getTrainees, getTrainers } from '../../../../Utils/apiCalls';
+import { useRouter } from 'vue-router';
+import { useUserStore } from '../../../stores/userStores';
 
+const store = useUserStore();
+const router = useRouter();
 const trainers = ref([]);
 const selectedTrainers = ref([]);
 const trainees = ref([]);
@@ -153,8 +157,8 @@ const updateSelectedTrainer = (trainer) => {
 };
 
 onMounted(() => {
-    if (!localStorage.getItem('Trainer')) {
-        router.push('/trainerlogin');
+    if (store.getUser().type!=='trainer') {
+        router.push('/trainer-login');
     }
     getTrainerList();
     getTraineesList();

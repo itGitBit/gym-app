@@ -14,7 +14,11 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { getTrainees } from '../../../../Utils/apiCalls.js';
+import { RouterLink } from 'vue-router';
+import { useUserStore } from '../../../stores/userStores.js';
 
+const store = useUserStore();
+const router = useRouter();
 const trainees = ref([]);
 
 const setRefFromGetTrainees = async () => {
@@ -22,6 +26,9 @@ const setRefFromGetTrainees = async () => {
 }
 
 onMounted(() => {
+    if (store.getUser().type !== 'trainer') {
+        router.push('/trainer-login');
+    }
     setRefFromGetTrainees();
 })
 </script>
@@ -31,11 +38,12 @@ onMounted(() => {
     flex-direction: column;
     align-items: center;
 }
-b-card-group{
-display: flex;
-align-items: center;
-flex-direction: column;
-justify-content: center;
+
+b-card-group {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .trainee-list {

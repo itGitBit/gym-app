@@ -11,7 +11,7 @@
 import { ref, onMounted } from 'vue';
 import { traineeLogin } from '../../../../Utils/apiCalls.js'
 import { useRouter } from "vue-router";
-import { useUserStore } from '../stores/userStore';
+import { useUserStore } from '../../../stores/userStores.js';
 
 const store = useUserStore();
 
@@ -21,7 +21,7 @@ const email = ref('');
 
 const submitLoginForm = async () => {
     const trainee = await traineeLogin(email.value);
-    if (localStorage.getItem('Trainer')) localStorage.removeItem('Trainer')
+    store.clearUser();
     store.setUser({
         id: trainee.id,
         name: trainee.name,
@@ -33,7 +33,7 @@ const submitLoginForm = async () => {
 }
 
 onMounted(() => {
-    if (store.isUserLoggedIn()) {
+    if (store.getUser().type === 'trainee') {
         router.push('/trainee-dashboard');
     }
 })

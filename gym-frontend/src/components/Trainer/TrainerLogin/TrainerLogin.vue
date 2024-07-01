@@ -18,7 +18,10 @@ import { ref, onMounted, watch } from "vue";
 import { useRouter } from "vue-router";
 import TrainerDropdown from "../TrainerDropdown/TrainerDropdown.vue";
 import { getTrainers } from '../../../../Utils/apiCalls';
+import { useUserStore } from '../../../stores/userStores.js';
 
+
+const store = useUserStore();
 const router = useRouter();
 
 const trainers = ref([{}]);
@@ -35,16 +38,24 @@ const getTrainerList = async () => {
 
 
 const setTrainerLoginDetails = () => {
-    localStorage.setItem('Trainer', selectedTrainer.value)
+const user = JSON.parse(selectedTrainer.value)
+    store.setUser({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        type: 'trainer'
+    })
+    console.log(JSON.stringify(store.getUser()))
     router.push('/trainer-dashboard');
 
 }
 
 onMounted(() => {
-    if (localStorage.getItem('Trainer')) {
+    if (store.isUserLoggedIn()) {
         router.push('/trainer-dashboard');
     }
-   getTrainerList();
+    getTrainerList();
 });
 
 
@@ -56,6 +67,4 @@ onMounted(() => {
     justify-content: center;
     align-items: center;
 }
-
-
 </style>
