@@ -28,7 +28,7 @@ onMounted(() => {
     trainee.value = store.getUser();
     if (trainee.value.type !== 'trainee') {
         store.clearUser();
-        router.push('/trainee-login');
+        router.push('/');
     }
 });
 </script>

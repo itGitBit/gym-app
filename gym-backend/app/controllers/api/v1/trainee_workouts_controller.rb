@@ -37,7 +37,6 @@ module Api
       def destroy
         @TraineeWorkout.destroy!
       end
-      
     end
   end
 end

@@ -5,14 +5,13 @@ module Api
 
       # GET /trainees
       def index
-        @trainees = Trainee.all
-
-        render json: @trainees
+        @trainees = Trainee.page(params[:page]).per(10)
+        render json: { trainees: @trainees, total_pages: @trainees.total_pages, current_page: @trainees.current_page }
       end
 
       # GET /trainees/1
       def show
-        render json: @trainee
+        render json: @trainee || { error: response[:error] }, status: response[:status]
       end
 
       # POST /trainees
@@ -38,6 +37,11 @@ module Api
       # DELETE /trainees/1
       def destroy
         @trainee.destroy!
+        if @trainee.destroyed?
+          render json: { success: "Trainee deleted successfully" }
+        else
+          render json: { error: "Failed to delete trainee" }
+        end
       end
 
       def find_by_email

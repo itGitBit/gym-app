@@ -158,7 +158,7 @@ const updateSelectedTrainer = (trainer) => {
 
 onMounted(() => {
     if (store.getUser().type!=='trainer') {
-        router.push('/trainer-login');
+        router.push('/');
     }
     getTrainerList();
     getTraineesList();

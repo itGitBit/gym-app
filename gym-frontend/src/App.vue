@@ -1,7 +1,13 @@
+<script setup lang="ts">
+import Header from './components/Header/Header.vue';
+
+
+</script>
+
 <template>
-  <nav>
-    <RouterLink to="/"><button title="ET go home">Home</button></RouterLink>
-  </nav>
+<header>
+  <Header />
+</header>
   <main title="horrible colors?">
     <span>
       <RouterLink to="/"><img title="Badass logo right?! Click to go home, E.T!" class="logo"
