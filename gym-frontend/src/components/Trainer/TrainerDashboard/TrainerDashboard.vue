@@ -34,10 +34,5 @@ onMounted(() => {
 });
 </script>
 <style scoped>
-.router-link {
-    padding: 2px;
-    color: #95C03A;
-    background-color: rgba(98, 90, 90, 0.507);
-    text-decoration: underline;
-}
+
 </style>

@@ -8,6 +8,7 @@ import UpdateTrainer from "../components/Trainer/UpdateTrainer/UpdateTrainer.vue
 import TraineesPage from "../components/Trainee/TraineesPage/TraineesPage.vue";
 import CreateTrainee from "../components/Trainee/CreateTrainee/CreateTrainee.vue";
 import TraineeLogin from "../components/Trainee/TraineeLogin/TraineeLogin.vue";
+import TraineeDashboard from "../components/Trainee/TraineeDashboard/TraineeDashboard.vue";
 
 const routes = [
   {
@@ -54,6 +55,11 @@ const routes = [
     path: '/trainee-login',
     name: 'TraineeLogin',
     component: TraineeLogin
+  },
+  {
+    path: '/trainee-dashboard',
+    name: 'TraineeDashboard',
+    component: TraineeDashboard
   }
 ];
 const router = createRouter({
