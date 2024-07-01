@@ -40,6 +40,11 @@ module Api
         @trainee.destroy!
       end
 
+      def find_by_email
+        response = Trainee.find_by_email_with_response(params[:email])
+        render json: response[:trainee] || { error: response[:error] }, status: response[:status]
+      end
+
       private
 
       # Use callbacks to share common setup or constraints between actions.

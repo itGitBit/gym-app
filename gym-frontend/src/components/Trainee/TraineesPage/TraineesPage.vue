@@ -31,6 +31,13 @@ onMounted(() => {
     flex-direction: column;
     align-items: center;
 }
+b-card-group{
+display: flex;
+align-items: center;
+flex-direction: column;
+justify-content: center;
+}
+
 .trainee-list {
     display: flex;
     flex-direction: grid;
@@ -38,6 +45,7 @@ onMounted(() => {
     border: 1px solid;
     border-radius: 5px;
 }
+
 .trainee {
     display: flex;
     flex-direction: column;

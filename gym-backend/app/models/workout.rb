@@ -13,6 +13,7 @@ class Workout < ApplicationRecord
     end
   
 
+
     def trainee_ids=(ids)
       ids.each do |id|
         self.trainee_workouts.build(trainee_id: id)

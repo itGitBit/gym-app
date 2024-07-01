@@ -13,6 +13,18 @@ export const createWorkout = async (workout) => {
   }
 };
 
+export const traineeLogin = async (email) => {
+  try {
+    const response = await fetch(
+      `http://localhost:3000/api/v1/trainees/findbyemail?email=${encodeURIComponent(email)}`
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(`${calculateCurrentTime} - Error: ${error}`);
+  }
+};
+
 
 export const getTrainers = async () => {
   try {
@@ -38,7 +50,7 @@ export const createTrainee = async (trainee) => {
   } catch (error) {
     console.log(`${calculateCurrentTime()} - Error: ${error} `);
   }
-}
+};
 
 export const getTrainees = async () => {
   try {
@@ -52,14 +64,15 @@ export const getTrainees = async () => {
 
 export const getMonthWorkouts = async (year, month) => {
   try {
-    const response = await fetch(`http://localhost:3000/api/v1/workouts/month/${year}/${month}`);
+    const response = await fetch(
+      `http://localhost:3000/api/v1/workouts/month/${year}/${month}`
+    );
     const data = await response.json();
     return data;
   } catch (error) {
     console.log(`${calculateCurrentTime()} - Error: ${error}`);
   }
 };
-
 
 export const updateTrainer = async (trainer) => {
   try {
