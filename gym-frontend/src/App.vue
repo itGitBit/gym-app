@@ -8,7 +8,7 @@ import Header from './components/Header/Header.vue';
 <header>
   <Header />
 </header>
-  <main title="horrible colors?">
+  <main >
     <span>
       <RouterLink to="/"><img title="Badass logo right?! Click to go home, E.T!" class="logo"
           src="./assets/android-chrome-192x192.png" alt="logo" /></RouterLink>

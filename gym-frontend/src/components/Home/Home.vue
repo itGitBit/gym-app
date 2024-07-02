@@ -1,5 +1,5 @@
 <template>
-    <div class="main-container">
+    <div  title="horrible colors?" class="main-container">
         <h1>Welcome to the Home Page</h1>
         <h2>Are you a trainer or a trainee?</h2>
 

@@ -164,12 +164,13 @@ input:focus {
   margin-top: 10px;
 }
 
+.trainee-badge,
 .trainer-badge {
   padding: 5px;
   margin: 5px;
   background-color: #95C03A;
   color: white;
-  border-radius: 5px;
+  border-radius: 15px;
   cursor: pointer;
 }
 .router-link {

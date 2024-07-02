@@ -5,6 +5,7 @@
       <WorkoutModal
         @closeModal="workoutModalVisible = false"
         :workouts="workoutsForDayRef"
+        @workoutsUpdated="fetchMonthWorkouts"
       />
     </div>
   </div>
@@ -33,13 +34,19 @@
           v-if="day.hasWorkout"
           class="workout-times"
         >
-          {{ day.startTime }}
+          {{
+            day.workoutsForDay.length > 1
+              ? `${day.workoutsForDay.length} workouts`
+              : day.startTime
+          }}
         </span>
       </div>
     </div>
   </div>
   <div class="main">
-    <button v-if="user.type==='trainer'" @click="router.push('/create-workout')">Add Workout</button>
+    <button v-if="user.type === 'trainer'" @click="router.push('/create-workout')">
+      Add Workout
+    </button>
   </div>
 </template>
 
@@ -125,9 +132,9 @@ const fetchMonthWorkouts = async () => {
 
 const openWorkoutModal = (todaysWorkouts) => {
   workoutsForDayRef.value = todaysWorkouts;
+  console.log(JSON.stringify(workoutsForDayRef.value));
   workoutModalVisible.value = true;
 };
-
 
 onMounted(() => {
   if (!store.isUserLoggedIn()) {
@@ -185,6 +192,7 @@ onMounted(() => {
   font-weight: lighter;
   overflow: hidden;
   cursor: pointer;
+  font-size: small;
 }
 
 .overlay {

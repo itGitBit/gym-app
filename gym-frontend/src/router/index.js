@@ -10,6 +10,7 @@ import CreateTrainee from "../components/Trainee/CreateTrainee/CreateTrainee.vue
 import TraineeLogin from "../components/Trainee/TraineeLogin/TraineeLogin.vue";
 import TraineeDashboard from "../components/Trainee/TraineeDashboard/TraineeDashboard.vue";
 import TraineeEdit from "../components/Trainee/TraineeEdit/TraineeEdit.vue";
+import UpdateWorkout from "../components/Workouts/UpdateWorkout/UpdateWorkout.vue";
 
 const routes = [
   {
@@ -33,6 +34,11 @@ const routes = [
     component: CreateWorkout,
   },
   {
+    path: "/update-workout/:workoutId",
+    name: "UpdateWorkout",
+    component: UpdateWorkout,
+  },
+  {
     path: "/workouts",
     name: "Workouts",
     component: ViewWorkouts,
@@ -48,25 +54,25 @@ const routes = [
     component: TraineesPage,
   },
   {
-    path:'/add-trainee',
-    name:'AddTrainee',
-    component: CreateTrainee
+    path: "/add-trainee",
+    name: "AddTrainee",
+    component: CreateTrainee,
   },
   {
-    path: '/trainee-login',
-    name: 'TraineeLogin',
-    component: TraineeLogin
+    path: "/trainee-login",
+    name: "TraineeLogin",
+    component: TraineeLogin,
   },
   {
-    path: '/trainee-dashboard',
-    name: 'TraineeDashboard',
-    component: TraineeDashboard
+    path: "/trainee-dashboard",
+    name: "TraineeDashboard",
+    component: TraineeDashboard,
   },
   {
-    path: '/trainee-edit/:traineeId',
-    name: 'TraineeEdit',
-    component: TraineeEdit
-  }
+    path: "/trainee-edit/:traineeId",
+    name: "TraineeEdit",
+    component: TraineeEdit,
+  },
 ];
 const router = createRouter({
   history: createWebHistory(),

@@ -20,8 +20,56 @@ export const createWorkout = async (workout) => {
 export const deleteWorkout = async (workoutId) => {
   try {
     const response = await axios.delete(
-      `http://localhost:3000/api/v1/workouts/`,
-      { params: { workout_id: workoutId } }
+      `http://localhost:3000/api/v1/workouts/${workoutId}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log(`${calculateCurrentTime()} - Error: ${error}`);
+  }
+};
+
+export const getWorkoutById = async (workoutId) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:3000/api/v1/workouts/${workoutId}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log(`${calculateCurrentTime()} - Error: ${error}`);
+  }
+};
+
+export const updateWorkout = async (workout) => {
+  try {
+    const response = await axios.put(
+      `http://localhost:3000/api/v1/workouts/${workout.id}`,
+      workout,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.log(`${calculateCurrentTime()} - Error: ${error}`);
+  }
+}
+
+export const updateTrainee = async (trainee) => {
+  try {
+    const response = await axios.put(
+      `http://localhost:3000/api/v1/trainees/${trainee.id}`,
+      {
+        name: trainee.name,
+        email: trainee.email,
+        phone: trainee.phone,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
     );
     return response.data;
   } catch (error) {
@@ -45,11 +93,10 @@ export const traineeLogin = async (email) => {
 
 export const getTraineeById = async (traineeId) => {
   try {
-    const response = await axios.get(`http://localhost:3000/api/v1/trainees/`, {
-      params: { trainee_id: traineeId },
-    });
-    const array = response.data;
-    return array.trainees[0];
+    const response = await axios.get(
+      `http://localhost:3000/api/v1/trainees/${traineeId}`
+    );
+    return response.data;
   } catch (error) {
     console.log(`${calculateCurrentTime()} - Error: ${error}`);
   }

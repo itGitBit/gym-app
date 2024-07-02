@@ -7,9 +7,9 @@ module Api
       def index
         @workouts = Workout.includes(:trainer_workouts, :trainee_workouts).all
         render json: @workouts.as_json(include: {
-                                  trainer_workouts: { include: :trainer },
-                                  trainee_workouts: { include: :trainee },
-                                })
+                                         trainer_workouts: { include: :trainer },
+                                         trainee_workouts: { include: :trainee },
+                                       })
       end
 
       # GET /workouts/1
@@ -50,7 +50,11 @@ module Api
       # DELETE /workouts/1
       def destroy
         @workout.destroy
-        head :no_content
+        if @workout.destroyed?
+          render json: { success: "Trainee deleted successfully" }
+        else
+          render json: { error: "Failed to delete trainee" }
+        end
       end
 
       # GET /workouts/month/:year/:month
@@ -62,9 +66,9 @@ module Api
 
         workouts = Workout.where(date: start_date..end_date)
         render json: workouts.as_json(include: {
-          trainer_workouts: { include: :trainer },
-          trainee_workouts: { include: :trainee },
-        })
+                                 trainer_workouts: { include: :trainer },
+                                 trainee_workouts: { include: :trainee },
+                               })
       end
 
       private
