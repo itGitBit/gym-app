@@ -9,6 +9,7 @@ import TraineesPage from "../components/Trainee/TraineesPage/TraineesPage.vue";
 import CreateTrainee from "../components/Trainee/CreateTrainee/CreateTrainee.vue";
 import TraineeLogin from "../components/Trainee/TraineeLogin/TraineeLogin.vue";
 import TraineeDashboard from "../components/Trainee/TraineeDashboard/TraineeDashboard.vue";
+import TraineeEdit from "../components/Trainee/TraineeEdit/TraineeEdit.vue";
 
 const routes = [
   {
@@ -60,6 +61,11 @@ const routes = [
     path: '/trainee-dashboard',
     name: 'TraineeDashboard',
     component: TraineeDashboard
+  },
+  {
+    path: '/trainee-edit/:traineeId',
+    name: 'TraineeEdit',
+    component: TraineeEdit
   }
 ];
 const router = createRouter({

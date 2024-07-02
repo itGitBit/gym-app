@@ -32,8 +32,7 @@
                 </select>
             </div>
             <div class="selected-bar">
-
-                <span @click="removeTraineeFromList(trainee.id)" class="trainer-badge"
+  <span @click="removeTraineeFromList(trainee.id)" class="trainee-badge"
                     v-for="trainee in selectedTrainees" :key="trainee.id">{{ trainee.name }}</span>
             </div>
 
@@ -50,7 +49,7 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue';
 import TrainerDropdown from '../../Trainer/TrainerDropdown/TrainerDropdown.vue';
-import { createWorkout, getTrainees, getTrainers } from '../../../../Utils/apiCalls';
+import { createWorkout, getAllTrainees, getTrainers } from '../../../../Utils/apiCalls';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '../../../stores/userStores';
 
@@ -85,7 +84,7 @@ const onSubmit = async () => {
         }
     }
     const response = await createWorkout(workout);
-    onResetForm();
+    router.push('/trainer-dashboard')
 
 
 }
@@ -101,8 +100,8 @@ const formatDate = () => {
 };
 
 const getTraineesList = async () => {
-    const data = await getTrainees();
-    trainees.value = data;
+    const data = await getAllTrainees();
+    trainees.value = data.trainees;
 };
 
 const getTrainerList = async () => {
@@ -169,4 +168,38 @@ onMounted(() => {
 
 </script>
 
-<style scoped></style>
+<style scoped>
+
+.trainer-badge,
+.trainee-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 5;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.trainer-badge:hover::after,
+.trainee-badge:hover::after {
+    content: " ×";
+    position: absolute;
+    right: 5px;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    font-weight: bold;
+}
+
+.trainer-badge:hover,
+.trainee-badge:hover {
+    background-color: #95C03A;
+
+}
+
+.warning {
+    color: red;
+    font-weight: bold;
+}
+
+</style>

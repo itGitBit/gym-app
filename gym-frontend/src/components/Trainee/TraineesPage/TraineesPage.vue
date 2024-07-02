@@ -9,10 +9,11 @@
           <p class="trainee-last-workout">Last Workout: {{ trainee.last_workout_date || 'Never' }}</p>
           <div class="trainee-buttons">
             <button @click="obliterateTrainee(trainee.id)" class="trainee-button">Delete</button>
-            <button @click="rewriteTrainee(trainee.id)" class="trainee-button">Edit</button>
+            <RouterLink :to="{ name: 'TraineeEdit', params: { traineeId: trainee.id } }"><button class="trainee-button">Edit</button></RouterLink>
           </div>
         </div>
       </div>
+      <button @click="router.push('/add-trainee')" >Add New Trainee</button>
       <div class="pagination">
         <button @click="fetchTrainees(currentPage - 1)" :disabled="currentPage === 1">Previous</button>
         <span>Page {{ currentPage }} of {{ totalPages }}</span>
@@ -47,9 +48,7 @@ const obliterateTrainee = async (id) => {
   }
 };
 
-const rewriteTrainee = (id) => {
-  router.push(`/trainee-edit/${id}`);
-};
+
 
 onMounted(() => {
   if (store.getUser().type !== 'trainer') {
