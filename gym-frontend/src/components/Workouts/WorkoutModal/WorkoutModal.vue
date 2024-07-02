@@ -31,10 +31,13 @@
             >
               Trainer List
             </button>
-            <p v-else v-for="trainerWorkout in workout.trainer_workouts" :key="trainerWorkout.trainer.id">
+            <p
+              v-else
+              v-for="trainerWorkout in workout.trainer_workouts"
+              :key="trainerWorkout.trainer.id"
+            >
               {{ trainerWorkout.trainer.name }}
             </p>
-         
           </td>
           <td class="trainee-cell">
             <button @click="openTraineesModal(workout.trainee_workouts)">
@@ -67,12 +70,7 @@
 <script setup>
 import dayjs from "dayjs";
 import { ref, onMounted, defineEmits } from "vue";
-import {
-  deleteTrainee,
-  getTrainees,
-  getTrainers,
-  deleteWorkout,
-} from "../../../../Utils/apiCalls.js";
+import { deleteWorkout } from "../../../../Utils/apiCalls.js";
 import ParticipantList from "../ParticipantList/ParticipantList.vue";
 
 const props = defineProps({

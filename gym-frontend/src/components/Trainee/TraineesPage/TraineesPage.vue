@@ -23,7 +23,7 @@
   </template>
 <script setup>
 import { ref, onMounted } from 'vue';
-import { getTrainees, deleteTrainee } from '../../../../Utils/apiCalls.js';
+import { getTraineesWithPagination, deleteTrainee } from '../../../../Utils/apiCalls.js';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '../../../stores/userStores.js';
 
@@ -35,7 +35,7 @@ const totalPages = ref(1);
 
 const fetchTrainees = async (page) => {
   if (page < 1 || page > totalPages.value) return;
-  const data = await getTrainees(page);
+  const data = await getTraineesWithPagination(page);
   trainees.value = data.trainees;
   currentPage.value = data.current_page;
   totalPages.value = data.total_pages;

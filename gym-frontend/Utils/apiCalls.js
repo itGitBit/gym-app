@@ -102,14 +102,23 @@ export const getTraineeById = async (traineeId) => {
   }
 };
 
-export const getTrainers = async () => {
+export const getTrainersWithPagination = async () => {
   try {
-    const response = await axios.get("http://localhost:3000/api/v1/trainers");
+    const response = await axios.get("http://localhost:3000/api/v1/trainers/get_with_pagination");
     return response.data;
   } catch (error) {
     console.log(`${calculateCurrentTime()} - Error: ${error}`);
   }
 };
+
+export const getAllTrainers = async () => {
+  try {
+    const response = await axios.get(`http://localhost:3000/api/v1/trainers`);
+    return response.data;
+  } catch (error) {
+    console.log(`${calculateCurrentTime()} - Error: ${error}`);
+  }
+}
 
 export const deleteTrainee = async (id) => {
   try {
@@ -139,9 +148,9 @@ export const createTrainee = async (trainee) => {
   }
 };
 
-export const getTrainees = async (page = 1) => {
+export const getTraineesWithPagination = async (page = 1) => {
   try {
-    const response = await axios.get(`http://localhost:3000/api/v1/trainees`, {
+    const response = await axios.get(`http://localhost:3000/api/v1/trainees/get_with_pagination`, {
       params: { page: page },
     });
     return response.data;

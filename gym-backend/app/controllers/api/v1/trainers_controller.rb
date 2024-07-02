@@ -10,6 +10,11 @@ module Api
         render json: @trainers
       end
 
+      def get_with_pagination
+        @trainers = Trainer.page(params[:page]).per(10)
+        render json: { trainers: @trainers, total_pages: @trainers.total_pages, current_page: @trainers.current_page }
+      end
+
       # GET /trainers/1
       def show
         render json: @trainer

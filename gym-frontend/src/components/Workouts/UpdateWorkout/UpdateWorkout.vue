@@ -39,8 +39,8 @@
           :trainers="trainers"
           :trainees="trainees"
           :resetSignal="resetSignal"
-          :updatedTrainers="workout.trainers"
-          :updatedTrainees="workout.trainees"
+          :updatedTrainers="trainersFromWorkout"
+          :updatedTrainees="traineesFromWorkout"
         />
         <div class="form-buttons">
           <p class="warning" v-if="warning">{{ warning }}</p>
@@ -48,9 +48,9 @@
             Delete Workout
           </button>
           <button type="submit">Update Workout</button>
-          <button type="button" @click="onResetForm" class="reset-button">
-          Reset Form
-        </button>
+          <RouterLink to="/">
+          <button class="nav-button" title="Trainee login">Trainee Login</button>
+        </RouterLink>
         </div>
       </form>
     </div>
@@ -60,7 +60,7 @@
 <script setup>
 import { useRouter, useRoute } from "vue-router";
 import { ref, onMounted } from "vue";
-import { getWorkoutById, updateWorkout } from "../../../../Utils/apiCalls.js";
+import { getWorkoutById, updateWorkout, getAllTrainees, getAllTrainers } from "../../../../Utils/apiCalls.js";
 import AddParticipants from "../ParticipantAdd/ParticipantAdd.vue";
 
 const router = useRouter();
@@ -73,16 +73,10 @@ const warning = ref("");
 const resetSignal = ref(false);
 const trainersIds = ref([]);
 const traineesIds = ref([]);
+const traineesFromWorkout = ref([]);
+const trainersFromWorkout = ref([]);
 
-const onResetForm = () => {
-  date.value = "";
-  startTime.value = "";
-  durationInMinutes.value = "";
-  warning.value = "";
-  trainersIds.value = [];
-  traineesIds.value = [];
-  resetSignal.value = !resetSignal.value;
-};
+
 
 const rewriteWorkout = async () => {
   const response = await updateWorkout(workout.value);
@@ -91,8 +85,20 @@ const rewriteWorkout = async () => {
 
 const getWorkoutAndRefIt = async () => {
   workout.value = await getWorkoutById(workoutId);
-  trainers.value = workout.value.trainers || [];
-  trainees.value = workout.value.trainees || [];
+  for (const trainer of workout.value.trainer_workouts) {
+    trainersFromWorkout.value.push(trainer.trainer);
+  }
+  for (const trainee of workout.value.trainee_workouts) {
+    traineesFromWorkout.value.push(trainee.trainee);
+  }
+
+};
+
+const getTraineesAndTrainers = async () => {
+  const trainersResponse = await getAllTrainers();
+  const traineesResponse = await getAllTrainees();
+  trainers.value = trainersResponse;
+  trainees.value = traineesResponse;
 };
 
 const handleWarningText = (warningText) => {
@@ -106,6 +112,8 @@ const updateParticipants = ({ trainers, trainees }) => {
 
 onMounted(() => {
   getWorkoutAndRefIt();
+  getTraineesAndTrainers();
+
 });
 </script>
 

@@ -14,7 +14,11 @@ module Api
 
       # GET /workouts/1
       def show
-        render json: @workout
+        @workout = Workout.includes(:trainer_workouts, :trainee_workouts).find(params[:id])
+        render json: @workout.as_json(include: {
+                                        trainer_workouts: { include: :trainer },
+                                        trainee_workouts: { include: :trainee },
+                                      })
       end
 
       # POST /workouts
@@ -66,9 +70,9 @@ module Api
 
         workouts = Workout.where(date: start_date..end_date)
         render json: workouts.as_json(include: {
-                                 trainer_workouts: { include: :trainer },
-                                 trainee_workouts: { include: :trainee },
-                               })
+                                        trainer_workouts: { include: :trainer },
+                                        trainee_workouts: { include: :trainee },
+                                      })
       end
 
       private

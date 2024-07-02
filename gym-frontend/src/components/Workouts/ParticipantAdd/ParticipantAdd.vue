@@ -174,24 +174,45 @@ const updateSelectedTrainer = (trainer) => {
 };
 
 onMounted(() => {
-  console.log(props.updatedTrainers);
   if (props.updatedTrainers) {
     selectedTrainers.value = props.updatedTrainers;
+
   }
   if (props.updatedTrainees) {
     selectedTrainees.value = props.updatedTrainees;
   }
 });
+
 </script>
 
 <style scoped>
+.input {
+  margin-bottom: 1rem;
+}
+
+.selected-bar {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 0.5rem;
+  grid-auto-flow: dense; /* Ensures grid items fill available space without expanding */
+}
+
 .trainer-badge,
 .trainee-badge {
   display: inline-block;
-  padding: 5px 10px;
   border-radius: 5px;
   position: relative;
   cursor: pointer;
+  padding: 5px 10px;
+  max-height: 1.5rem;
+  overflow: hidden;
+  min-width: 150px; 
+  text-align: center; 
+  box-sizing: border-box; 
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+font-size: 0.6rem;
 }
 
 .trainer-badge:hover::after,
@@ -208,5 +229,9 @@ onMounted(() => {
 .trainer-badge:hover,
 .trainee-badge:hover {
   background-color: #95c03a;
+  white-space: nowrap;
+  text-overflow: clip;
+  transform: scale(1.1);
+ box-shadow: 5px 10px 8px rgba(0, 0, 0, 0.2);
 }
 </style>

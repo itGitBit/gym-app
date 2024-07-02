@@ -17,7 +17,7 @@
 import { ref, onMounted, watch } from "vue";
 import { useRouter } from "vue-router";
 import TrainerDropdown from "../TrainerDropdown/TrainerDropdown.vue";
-import { getTrainers } from '../../../../Utils/apiCalls';
+import { getAllTrainers } from '../../../../Utils/apiCalls';
 import { useUserStore } from '../../../stores/userStores.js';
 
 
@@ -32,7 +32,7 @@ const updateSelectedTrainer = (trainer) => {
 };
 
 const getTrainerList = async () => {
-    const data = await getTrainers();
+    const data = await getAllTrainers();
     trainers.value = data;
 };
 

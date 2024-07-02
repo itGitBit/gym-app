@@ -56,7 +56,7 @@ import { ref, onMounted } from "vue";
 import {
   createWorkout,
   getAllTrainees,
-  getTrainers,
+  getAllTrainers,
 } from "../../../../Utils/apiCalls";
 import { useRouter } from "vue-router";
 import { useUserStore } from "../../../stores/userStores";
@@ -151,7 +151,7 @@ const handleWarningText = (warningText) => {
 };
 
 const getTrainerList = async () => {
-  const data = await getTrainers();
+  const data = await getAllTrainers();
   trainers.value = data;
 };
 
