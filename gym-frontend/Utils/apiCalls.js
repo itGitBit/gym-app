@@ -40,21 +40,31 @@ export const getWorkoutById = async (workoutId) => {
 };
 
 export const updateWorkout = async (workout) => {
+  console.log(workout)
   try {
     const response = await axios.put(
       `http://localhost:3000/api/v1/workouts/${workout.id}`,
-      workout,
+      {workout: {
+        date: workout.date,
+        start_time: workout.start_time,
+        duration_in_minutes: workout.duration_in_minutes,
+        trainee_ids: workout.trainee_ids,
+        trainer_ids: workout.trainer_ids,
+      }},
       {
         headers: {
           "Content-Type": "application/json",
         },
       }
     );
+
+    
     return response.data;
   } catch (error) {
     console.log(`${calculateCurrentTime()} - Error: ${error}`);
   }
-}
+};
+
 
 export const updateTrainee = async (trainee) => {
   try {
@@ -104,7 +114,9 @@ export const getTraineeById = async (traineeId) => {
 
 export const getTrainersWithPagination = async () => {
   try {
-    const response = await axios.get("http://localhost:3000/api/v1/trainers/get_with_pagination");
+    const response = await axios.get(
+      "http://localhost:3000/api/v1/trainers/get_with_pagination"
+    );
     return response.data;
   } catch (error) {
     console.log(`${calculateCurrentTime()} - Error: ${error}`);
@@ -118,7 +130,17 @@ export const getAllTrainers = async () => {
   } catch (error) {
     console.log(`${calculateCurrentTime()} - Error: ${error}`);
   }
-}
+};
+export const deleteTrainer = async (id) => {
+  try {
+    const response = await axios.delete(
+      `http://localhost:3000/api/v1/trainers/${id}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log(`${calculateCurrentTime()} - Error: ${error}`);
+  }
+};
 
 export const deleteTrainee = async (id) => {
   try {
@@ -148,11 +170,31 @@ export const createTrainee = async (trainee) => {
   }
 };
 
+export const createTrainer = async (trainer) => {
+  try {
+    const response = await axios.post(
+      "http://localhost:3000/api/v1/trainers",
+      trainer,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.log(`${calculateCurrentTime()} - Error: ${error}`);
+  }
+};
+
 export const getTraineesWithPagination = async (page = 1) => {
   try {
-    const response = await axios.get(`http://localhost:3000/api/v1/trainees/get_with_pagination`, {
-      params: { page: page },
-    });
+    const response = await axios.get(
+      `http://localhost:3000/api/v1/trainees/get_with_pagination`,
+      {
+        params: { page: page },
+      }
+    );
     return response.data;
   } catch (error) {
     console.log(`${calculateCurrentTime()} - Error: ${error}`);

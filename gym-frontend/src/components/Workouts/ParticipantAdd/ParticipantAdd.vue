@@ -12,7 +12,7 @@
         type="button"
         @click="router.push('/add-trainer')"
       >
-        Add Trainer
+        Create New Trainer
       </button>
     </div>
     <div class="selected-bar">
@@ -44,7 +44,7 @@
         </option>
       </select>
       <button type="button" @click="router.push('/add-trainee')">
-        Add Trainee
+        Create New Trainee
       </button>
     </div>
 

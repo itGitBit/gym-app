@@ -39,12 +39,7 @@ module Api
 
       # PUT /workouts/1
       def update
-        if @workout.update(workout_params.except(:trainer_ids, :trainee_ids))
-          @workout.trainer_workouts.destroy_all
-          @workout.trainee_workouts.destroy_all
-          create_trainer_workouts(@workout, workout_params[:trainer_ids])
-          create_trainee_workouts(@workout, workout_params[:trainee_ids])
-          update_last_workout_date(workout_params[:trainee_ids], @workout.date)
+        if @workout.update_with_associations(workout_params)
           render json: @workout
         else
           render json: @workout.errors, status: :unprocessable_entity

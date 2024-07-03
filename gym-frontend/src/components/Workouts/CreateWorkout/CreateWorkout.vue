@@ -61,6 +61,7 @@ import {
 import { useRouter } from "vue-router";
 import { useUserStore } from "../../../stores/userStores";
 import AddParticipants from "../ParticipantAdd/ParticipantAdd.vue";
+import { validateWorkout } from "../../../../Utils/validations";
 
 const store = useUserStore();
 const router = useRouter();
@@ -90,6 +91,7 @@ const updateParticipants = ({ trainers, trainees }) => {
 };
 
 const onSubmit = async () => {
+  
   const workout = {
     workout: {
       date: formatDate(),
@@ -107,30 +109,6 @@ const onSubmit = async () => {
   router.push("/trainer-dashboard");
 };
 
-const validateWorkout = (workout) => {
-  if (workout.duration_in_minutes < 1) {
-    handleWarningText("Please enter a valid duration.");
-    return false;
-  }
-  if (workout.date === "") {
-    handleWarningText("Please enter a valid date.");
-    return false;
-  }
-  if (workout.start_time === "") {
-    handleWarningText("Please enter a valid start time.");
-    return false;
-  }
-  if (workout.trainee_ids.length === 0) {
-    handleWarningText("Please select at least one trainee.");
-    return false;
-  }
-  if (workout.trainer_ids.length === 0) {
-    handleWarningText("Please select at least one trainer.");
-    return false;
-  }
-  return true;
-};
-
 const formatDate = () => {
   const formattedDate = new Date(date.value).toLocaleDateString("en-US", {
     weekday: "short",
@@ -143,7 +121,8 @@ const formatDate = () => {
 
 const getTraineesList = async () => {
   const data = await getAllTrainees();
-  trainees.value = data.trainees;
+  trainees.value = data;
+  console.log(data);
 };
 
 const handleWarningText = (warningText) => {

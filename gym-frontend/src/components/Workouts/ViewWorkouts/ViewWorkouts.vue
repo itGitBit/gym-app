@@ -132,7 +132,6 @@ const fetchMonthWorkouts = async () => {
 
 const openWorkoutModal = (todaysWorkouts) => {
   workoutsForDayRef.value = todaysWorkouts;
-  console.log(JSON.stringify(workoutsForDayRef.value));
   workoutModalVisible.value = true;
 };
 

@@ -46,7 +46,6 @@ const user = JSON.parse(selectedTrainer.value)
         phone: user.phone,
         type: 'trainer'
     })
-    console.log(JSON.stringify(store.getUser()))
     router.push('/trainer-dashboard');
 
 }
@@ -54,6 +53,7 @@ const user = JSON.parse(selectedTrainer.value)
 onMounted(() => {
     if (store.isUserLoggedIn()) {
         router.push('/trainer-dashboard');
+        return;
     }
     getTrainerList();
 });

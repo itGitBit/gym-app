@@ -11,6 +11,8 @@ import TraineeLogin from "../components/Trainee/TraineeLogin/TraineeLogin.vue";
 import TraineeDashboard from "../components/Trainee/TraineeDashboard/TraineeDashboard.vue";
 import TraineeEdit from "../components/Trainee/TraineeEdit/TraineeEdit.vue";
 import UpdateWorkout from "../components/Workouts/UpdateWorkout/UpdateWorkout.vue";
+import CreateTrainer from "../components/Trainer/CreateTrainer/CreateTrainer.vue";
+import TrainersPage from "../components/Trainer/TrainersPage/TrainersPage.vue";
 
 const routes = [
   {
@@ -73,6 +75,16 @@ const routes = [
     name: "TraineeEdit",
     component: TraineeEdit,
   },
+  {
+    path: '/add-trainer',
+    name: 'AddTrainer',
+    component: CreateTrainer
+  },
+  {
+    path: '/trainers',
+    name: 'Trainers',
+    component: TrainersPage
+  }
 ];
 const router = createRouter({
   history: createWebHistory(),

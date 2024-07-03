@@ -22,7 +22,6 @@ module Api
       # POST /trainees
       def create
         @trainee = Trainee.new(trainee_params)
-
         if @trainee.save
           render json: @trainee, status: :created, location: api_v1_trainee_path(@trainee)
         else

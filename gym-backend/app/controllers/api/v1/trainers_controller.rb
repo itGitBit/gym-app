@@ -23,9 +23,8 @@ module Api
       # POST /trainers
       def create
         @trainer = Trainer.new(trainer_params)
-
         if @trainer.save
-          render json: @trainer, status: :created, location: @trainer
+          render json: @trainer, status: :created, location: api_v1_trainer_url(@trainer)
         else
           render json: @trainer.errors, status: :unprocessable_entity
         end

@@ -4,9 +4,11 @@
       <h2>What would you like to do?</h2>
       <div class="options">
         <RouterLink title="View your trainees" class="router-button" to="/trainees"><button>View Trainees</button></RouterLink>
+        <RouterLink title="View all trainers" class="router-button" to="/trainers"><button>View Trainers</button></RouterLink>
         <RouterLink title="View your workouts" class="router-button" to="/workouts"><button>View Workouts</button></RouterLink>
-        <RouterLink title="Create a new workout" class="router-button" to="/create-workout"><button>Create Workout</button></RouterLink>
+        <RouterLink title="Create a new workout" class="router-button" to="/create-workout"><button>Add Workout</button></RouterLink>
         <RouterLink title="Add a new trainee" class="router-button" to="/add-trainee"><button>Add Trainee</button></RouterLink>
+        <RouterLink title="Add a new trainee" class="router-button" to="/add-trainer"><button>Add Trainer</button></RouterLink>
       </div>
     </div>
   </template>
@@ -29,5 +31,14 @@
   });
   </script>
   
-  <style scoped></style>
+  <style scoped>
+.options{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+button{
+  width: 175px;
+}
+</style>
   
