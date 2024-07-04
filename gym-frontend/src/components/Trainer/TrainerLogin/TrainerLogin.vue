@@ -17,7 +17,7 @@
 import { ref, onMounted, watch } from "vue";
 import { useRouter } from "vue-router";
 import TrainerDropdown from "../TrainerDropdown/TrainerDropdown.vue";
-import { getAllTrainers } from '../../../../Utils/apiCalls';
+import { getAllTrainers } from '../../../Utils/apiCalls.js';
 import { useUserStore } from '../../../stores/userStores.js';
 
 

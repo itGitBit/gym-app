@@ -1,5 +1,5 @@
 class Trainer < ApplicationRecord
-    has_many :trainer_workouts
+    has_many :trainer_workouts, dependent: :destroy
     has_many :workouts, through: :trainer_workouts
 
 

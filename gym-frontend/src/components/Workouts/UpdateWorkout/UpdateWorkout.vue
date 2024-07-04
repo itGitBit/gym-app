@@ -37,9 +37,9 @@
 <script setup>
 import { useRouter, useRoute } from "vue-router";
 import { ref, onMounted } from "vue";
-import { getWorkoutById, updateWorkout, getAllTrainees, getAllTrainers } from "../../../../Utils/apiCalls.js";
+import { getWorkoutById, updateWorkout, getAllTrainees, getAllTrainers } from "../../../Utils/apiCalls.js";
 import AddParticipants from "../ParticipantAdd/ParticipantAdd.vue";
-import { validateWorkout } from "../../../../Utils/validations.js";
+import { validateWorkout } from "../../../Utils/validations.js";
 
 
 const router = useRouter();

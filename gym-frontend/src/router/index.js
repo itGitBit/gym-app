@@ -46,7 +46,7 @@ const routes = [
     component: ViewWorkouts,
   },
   {
-    path: "/update-trainer",
+    path: "/update-trainer/:trainerId",
     name: "UpdateTrainer",
     component: UpdateTrainer,
   },

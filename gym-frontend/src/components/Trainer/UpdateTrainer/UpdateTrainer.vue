@@ -29,12 +29,17 @@
 
 <script setup>
 import { onMounted, ref } from 'vue';
-import { updateTrainer } from '../../../../Utils/apiCalls';
+import { updateTrainer } from '../../../Utils/apiCalls.js';
 import { useUserStore } from '../../../stores/userStores.js';
+import { useRouter, useRoute } from "vue-router";
 
+
+const router = useRouter();
+const route = useRoute();
 const store = useUserStore();
 const trainer = ref({})
 const isEditting = ref(false);
+const trainerId = route.params.trainerId;
 
 const onEditDetails = () => {
     isEditting.value = true;
@@ -46,7 +51,6 @@ const onSubmitForm = async () => {
     store.setUser({
         name: trainer.value.name, id: trainer.value.id, phone: trainer.value.phone, email: trainer.value.email, type: 'trainer'
     })
-    console.log(JSON.stringify(store.getUser()))
     isEditting.value = false;
 }
 

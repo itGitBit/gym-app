@@ -57,11 +57,11 @@ import {
   createWorkout,
   getAllTrainees,
   getAllTrainers,
-} from "../../../../Utils/apiCalls";
+} from "../../../Utils/apiCalls";
 import { useRouter } from "vue-router";
 import { useUserStore } from "../../../stores/userStores";
 import AddParticipants from "../ParticipantAdd/ParticipantAdd.vue";
-import { validateWorkout } from "../../../../Utils/validations";
+import { validateWorkout } from "../../../Utils/validations";
 
 const store = useUserStore();
 const router = useRouter();
@@ -122,7 +122,6 @@ const formatDate = () => {
 const getTraineesList = async () => {
   const data = await getAllTrainees();
   trainees.value = data;
-  console.log(data);
 };
 
 const handleWarningText = (warningText) => {

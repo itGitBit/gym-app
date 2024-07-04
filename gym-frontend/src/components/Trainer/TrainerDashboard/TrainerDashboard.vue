@@ -1,6 +1,6 @@
 <template>
     <div class="main">
-      <h1>Hello <RouterLink title="Edit your details, man!" class="router-link" to="/update-trainer">{{ trainer.name }}</RouterLink></h1>
+      <h1>Hello <RouterLink title="Edit your details, man!" class="router-link" to="/update-trainer/{{ trainer.id }}">{{ trainer.name }}</RouterLink></h1>
       <h2>What would you like to do?</h2>
       <div class="options">
         <RouterLink title="View your trainees" class="router-button" to="/trainees"><button>View Trainees</button></RouterLink>

@@ -54,7 +54,7 @@
 import { ref, computed, onMounted, watch } from "vue";
 import dayjs from "dayjs";
 import WorkoutModal from "../WorkoutModal/WorkoutModal.vue";
-import { getMonthWorkouts } from "../../../../Utils/apiCalls";
+import { getMonthWorkouts } from "../../../Utils/apiCalls";
 import { useUserStore } from "../../../stores/userStores";
 import { useRouter } from "vue-router";
 

@@ -1,30 +1,48 @@
 <template>
-    <div class="trainers-container">
-      <h1>Trainers</h1>
-      <div class="trainer-list">
-        <div class="trainer" v-for="trainer in trainers" :key="trainer.id">
-          <p class="trainer-name">Name: {{ trainer.name }}</p>
-          <p class="trainer-email">Email: {{ trainer.email }}</p>
-          <p class="trainer-phone">Phone: {{ trainer.phone }}</p>
-          <div class="trainer-buttons">
-            <button @click="obliterateTrainer(trainer.id)" class="trainer-button">Delete</button>
-            <RouterLink :to="{ name: 'TrainerEdit', params: { trainerId: trainer.id } }"><button class="trainer-button">Edit</button></RouterLink>
-          </div>
+  <div class="trainers-container">
+    <h1>Trainers</h1>
+    <div class="trainer-list">
+      <div class="trainer" v-for="trainer in trainers" :key="trainer.id">
+        <p class="trainer-name">Name: {{ trainer.name }}</p>
+        <p class="trainer-email">Email: {{ trainer.email }}</p>
+        <p class="trainer-phone">Phone: {{ trainer.phone }}</p>
+        <div class="trainer-buttons">
+          <button @click="obliterateTrainer(trainer.id)" class="trainer-button">
+            Delete
+          </button>
+          <RouterLink
+            :to="{ name: 'UpdateTrainer', params: { trainerId: trainer.id } }"
+            ><button class="trainer-button">Edit</button></RouterLink
+          >
         </div>
       </div>
-      <button @click="router.push('/add-trainer')" >Add New Trainer</button>
-      <div class="pagination">
-        <button @click="fetchTrainers(currentPage - 1)" :disabled="currentPage === 1">Previous</button>
-        <span>Page {{ currentPage }} of {{ totalPages }}</span>
-        <button @click="fetchTrainers(currentPage + 1)" :disabled="currentPage === totalPages">Next</button>
-      </div>
     </div>
-  </template>
+    <button @click="router.push('/add-trainer')">Add New Trainer</button>
+    <div class="pagination">
+      <button
+        @click="fetchTrainers(currentPage - 1)"
+        :disabled="currentPage === 1"
+      >
+        Previous
+      </button>
+      <span>Page {{ currentPage }} of {{ totalPages }}</span>
+      <button
+        @click="fetchTrainers(currentPage + 1)"
+        :disabled="currentPage === totalPages"
+      >
+        Next
+      </button>
+    </div>
+  </div>
+</template>
 <script setup>
-import { ref, onMounted } from 'vue';
-import { getTrainersWithPagination, deleteTrainer } from '../../../../Utils/apiCalls.js';
-import { useRouter } from 'vue-router';
-import { useUserStore } from '../../../stores/userStores.js';
+import { ref, onMounted } from "vue";
+import {
+  getTrainersWithPagination,
+  deleteTrainer,
+} from "../../../Utils/apiCalls.js";
+import { useRouter } from "vue-router";
+import { useUserStore } from "../../../stores/userStores.js";
 
 const store = useUserStore();
 const router = useRouter();
@@ -35,24 +53,21 @@ const totalPages = ref(1);
 const fetchTrainers = async (page) => {
   if (page < 1 || page > totalPages.value) return;
   const data = await getTrainersWithPagination(page);
-  console.log(data);
-  trainers.value = data.trainers.trainers;
+  trainers.value = data.trainers;
   currentPage.value = data.current_page;
   totalPages.value = data.total_pages;
 };
 
 const obliterateTrainer = async (id) => {
-  if (confirm('Are you sure you want to delete this trainer?')) {
+  if (confirm("Are you sure you want to delete this trainer?")) {
     await deleteTrainer(id);
-    fetchTrainers(currentPage.value);
+    await fetchTrainers(currentPage.value);
   }
 };
 
-
-
 onMounted(() => {
-  if (store.getUser().type !== 'trainer') {
-    router.push('/');
+  if (store.getUser().type !== "trainer") {
+    router.push("/");
   }
   fetchTrainers(currentPage.value);
 });
@@ -64,13 +79,13 @@ onMounted(() => {
   align-items: center;
   padding: 20px;
   background-color: #2f302f;
-  color: #95C03A;
+  color: #95c03a;
 }
 
 h1 {
   font-size: 2.5rem;
   margin-bottom: 10px;
-  color: #95C03A;
+  color: #95c03a;
 }
 
 .trainer-list {
@@ -86,7 +101,7 @@ h1 {
   flex-direction: column;
   align-items: flex-start;
   background-color: #333;
-  border: 1px solid #95C03A;
+  border: 1px solid #95c03a;
   border-radius: 8px;
   padding: 15px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -111,7 +126,7 @@ h1 {
 .trainer-phone,
 .trainer-last-workout {
   font-size: 1em;
-  color: #95C03A;
+  color: #95c03a;
 }
 
 .trainer-buttons {
@@ -127,7 +142,7 @@ h1 {
   font-size: 1em;
   border: none;
   border-radius: 5px;
-  background-color: #95C03A;
+  background-color: #95c03a;
   color: white;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -151,7 +166,7 @@ h1 {
   font-size: 1em;
   border: none;
   border-radius: 5px;
-  background-color: #95C03A;
+  background-color: #95c03a;
   color: white;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -164,6 +179,6 @@ h1 {
 
 .pagination span {
   font-size: 1.2em;
-  color: #95C03A;
+  color: #95c03a;
 }
 </style>

@@ -70,7 +70,7 @@
 <script setup>
 import dayjs from "dayjs";
 import { ref, onMounted, defineEmits } from "vue";
-import { deleteWorkout } from "../../../../Utils/apiCalls.js";
+import { deleteWorkout } from "../../../Utils/apiCalls.js";
 import ParticipantList from "../ParticipantList/ParticipantList.vue";
 
 const props = defineProps({
@@ -107,6 +107,7 @@ const formatWorkoutDate = (date) => {
 
 const obliterateWorkout = async (workoutId) => {
   try {
+    if (!confirm("Are you sure you want to delete this workout?")) return;
     await deleteWorkout(workoutId);
     emit("workoutsUpdated");
     emit("closeModal");

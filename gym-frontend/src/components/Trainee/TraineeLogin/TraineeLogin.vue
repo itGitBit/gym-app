@@ -13,7 +13,7 @@
 </template>
 <script setup>
 import { ref, onMounted } from "vue";
-import { traineeLogin } from "../../../../Utils/apiCalls.js";
+import { traineeLogin } from "../../../Utils/apiCalls.js";
 import { useRouter } from "vue-router";
 import { useUserStore } from "../../../stores/userStores.js";
 

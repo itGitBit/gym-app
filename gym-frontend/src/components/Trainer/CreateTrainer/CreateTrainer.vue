@@ -25,7 +25,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import { createTrainer } from '../../../../Utils/apiCalls.js';
+import { createTrainer } from '../../../Utils/apiCalls.js';
 import { useRouter } from 'vue-router';
 
 const name = ref('');

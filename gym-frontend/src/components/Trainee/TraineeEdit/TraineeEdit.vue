@@ -17,7 +17,11 @@
 <script setup>
 import { useRouter, useRoute } from "vue-router";
 import { ref, onMounted } from "vue";
-import { getTraineeById, updateTrainee } from "../../../../Utils/apiCalls.js";
+import {
+  getTraineeById,
+  updateTrainee,
+  deleteTrainee,
+} from "../../../Utils/apiCalls.js";
 
 const router = useRouter();
 const route = useRoute();
@@ -27,11 +31,17 @@ const trainee = ref(null);
 const rewriteTrainee = async () => {
   const response = await updateTrainee(trainee.value);
   trainee.value = response;
-
 };
 
 const getTraineeAndRefIt = async () => {
   trainee.value = await getTraineeById(traineeId);
+};
+
+const obliterateTrainee = async (id) => {
+  if (confirm("Are you sure you want to delete this trainee?")) {
+    await deleteTrainee(id);
+    router.push("/trainees");
+  }
 };
 
 onMounted(() => {
