@@ -91,7 +91,6 @@ const updateParticipants = ({ trainers, trainees }) => {
 };
 
 const onSubmit = async () => {
-  
   const workout = {
     workout: {
       date: formatDate(),
@@ -105,7 +104,6 @@ const onSubmit = async () => {
     return;
   }
   const response = await createWorkout(workout);
-  alert("Workout created successfully!");
   router.push("/trainer-dashboard");
 };
 
