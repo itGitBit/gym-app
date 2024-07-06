@@ -1,5 +1,8 @@
 import axios from "axios";
 
+
+// CRUD WORKOUT
+
 export const createWorkout = async (workout) => {
   try {
     const response = await axios.post(
@@ -28,6 +31,8 @@ export const deleteWorkout = async (workoutId) => {
   }
 };
 
+
+
 export const getWorkoutById = async (workoutId) => {
   try {
     const response = await axios.get(
@@ -39,8 +44,9 @@ export const getWorkoutById = async (workoutId) => {
   }
 };
 
+
+
 export const updateWorkout = async (workout) => {
-  console.log(workout)
   try {
     const response = await axios.put(
       `http://localhost:3000/api/v1/workouts/${workout.id}`,
@@ -58,13 +64,16 @@ export const updateWorkout = async (workout) => {
       }
     );
 
-    
     return response.data;
   } catch (error) {
     console.log(`${calculateCurrentTime()} - Error: ${error}`);
   }
 };
 
+
+
+
+// CRUD TRAINEE
 
 export const updateTrainee = async (trainee) => {
   try {
@@ -112,10 +121,13 @@ export const getTraineeById = async (traineeId) => {
   }
 };
 
-export const getTrainersWithPagination = async () => {
+export const getTrainersWithPagination = async (page = 1) => {
   try {
     const response = await axios.get(
-      "http://localhost:3000/api/v1/trainers/get_with_pagination"
+      `http://localhost:3000/api/v1/trainers`,
+      {
+        params: { page: page },
+      }
     );
     return response.data;
   } catch (error) {
@@ -190,7 +202,7 @@ export const createTrainer = async (trainer) => {
 export const getTraineesWithPagination = async (page = 1) => {
   try {
     const response = await axios.get(
-      `http://localhost:3000/api/v1/trainees/get_with_pagination`,
+      `http://localhost:3000/api/v1/trainees`,
       {
         params: { page: page },
       }

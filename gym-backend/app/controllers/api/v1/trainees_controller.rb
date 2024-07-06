@@ -5,13 +5,13 @@ module Api
 
       # GET /trainees
       def index
-        @trainees = Trainee.all
-        render json: @trainees
-      end
-
-      def get_with_pagination
-        @trainees = Trainee.page(params[:page]).per(10)
-        render json: { trainees: @trainees, total_pages: @trainees.total_pages, current_page: @trainees.current_page }
+        if params[:page]
+          @trainees = Trainee.page(params[:page]).per(9)
+          render json: { trainees: @trainees, total_pages: @trainees.total_pages, current_page: @trainees.current_page }
+        else
+          @trainees = Trainee.all
+          render json: @trainees
+        end
       end
 
       # GET /trainees/1

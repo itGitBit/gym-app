@@ -5,15 +5,14 @@ module Api
 
       # GET /trainers
       def index
+        if params[:page]
+          @trainers = Trainer.page(params[:page]).per(10)
+          render json: { trainers: @trainers, total_pages: @trainers.total_pages, current_page: @trainers.current_page }
+        else
         @trainers = Trainer.all
-
         render json: @trainers
-      end
-
-      def get_with_pagination
-        @trainers = Trainer.page(params[:page]).per(10)
-        render json: { trainers: @trainers, total_pages: @trainers.total_pages, current_page: @trainers.current_page }
-      end
+    end
+  end
 
       # GET /trainers/1
       def show

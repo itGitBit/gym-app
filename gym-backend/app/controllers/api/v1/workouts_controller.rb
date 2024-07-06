@@ -23,14 +23,13 @@ module Api
 
       # POST /workouts
       def create
-        @workout = Workout.new(workout_params.except(:trainer_ids, :trainee_ids))
+        date = workout_params[:date]
+        start_time = workout_params[:start_time]
+        duration_in_minutes = workout_params[:duration_in_minutes]
         trainer_ids = workout_params[:trainer_ids]
         trainee_ids = workout_params[:trainee_ids]
-
-        if @workout.save
-          create_trainer_workouts(@workout, trainer_ids)
-          create_trainee_workouts(@workout, trainee_ids)
-          update_last_workout_date(trainee_ids, @workout.date)
+        @workout = Workout.create_with_associations(date,start_time,duration_in_minutes,trainer_ids,trainee_ids)
+        if @workout.persisted?
           render json: @workout, status: :created, location: url_for([:api, :v1, @workout])
         else
           render json: @workout.errors.full_messages, status: :unprocessable_entity
@@ -49,11 +48,7 @@ module Api
       # DELETE /workouts/1
       def destroy
         @workout.destroy
-        if @workout.destroyed?
-          render json: { success: "Trainee deleted successfully" }
-        else
-          render json: { error: "Failed to delete trainee" }
-        end
+        head :no_content
       end
 
       # GET /workouts/month/:year/:month

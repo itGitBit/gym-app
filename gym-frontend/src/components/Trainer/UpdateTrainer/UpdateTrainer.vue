@@ -29,7 +29,7 @@
 
 <script setup>
 import { onMounted, ref } from 'vue';
-import { updateTrainer } from '../../../Utils/apiCalls.js';
+import { updateTrainer, getTrainerById } from '../../../Utils/apiCalls.js';
 import { useUserStore } from '../../../stores/userStores.js';
 import { useRouter, useRoute } from "vue-router";
 
@@ -54,7 +54,16 @@ const onSubmitForm = async () => {
     isEditting.value = false;
 }
 
+const getTrainerDetails = async () => {
+    trainer.value = await getTrainerById(trainerId);
+}
+
 onMounted(() => {
+if(trainerId !== store.getUser().id) {
+    getTrainerDetails();
+
+}
+
     trainer.value = store.getUser();
 });
 </script>

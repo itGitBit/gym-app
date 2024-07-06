@@ -79,6 +79,7 @@ const handleSubmit = async () => {
     return;
   }
   const response = await updateWorkout(updatedWorkout);
+  router.push("/workouts");
 }
 
 const getTraineesAndTrainers = async () => {

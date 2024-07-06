@@ -4,16 +4,8 @@ Rails.application.routes.draw do
       get "trainees/findbyemail", to: "trainees#find_by_email"
       get "workouts/month/:year/:month", to: "workouts#month_workouts"
       resources :workouts, only: [:index, :show, :create, :update, :destroy]
-      resources :trainers, only: [:index, :show, :create, :update, :destroy] do
-        collection do
-          get "get_with_pagination"
-        end
-      end
-      resources :trainees, only: [:index, :show, :create, :update, :destroy] do
-        collection do
-          get "get_with_pagination"
-        end
-      end
+      resources :trainers, only: [:index, :show, :create, :update, :destroy]
+      resources :trainees, only: [:index, :show, :create, :update, :destroy]
       resources :trainee_workouts, only: [:index, :show, :create, :update, :destroy]
       resources :trainer_workouts, only: [:index, :show, :create, :update, :destroy]
     end
