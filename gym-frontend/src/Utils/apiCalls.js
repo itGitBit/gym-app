@@ -1,6 +1,5 @@
 import axios from "axios";
 
-
 // CRUD WORKOUT
 
 export const createWorkout = async (workout) => {
@@ -31,8 +30,6 @@ export const deleteWorkout = async (workoutId) => {
   }
 };
 
-
-
 export const getWorkoutById = async (workoutId) => {
   try {
     const response = await axios.get(
@@ -44,19 +41,19 @@ export const getWorkoutById = async (workoutId) => {
   }
 };
 
-
-
 export const updateWorkout = async (workout) => {
   try {
     const response = await axios.put(
       `http://localhost:3000/api/v1/workouts/${workout.id}`,
-      {workout: {
-        date: workout.date,
-        start_time: workout.start_time,
-        duration_in_minutes: workout.duration_in_minutes,
-        trainee_ids: workout.trainee_ids,
-        trainer_ids: workout.trainer_ids,
-      }},
+      {
+        workout: {
+          date: workout.date,
+          start_time: workout.start_time,
+          duration_in_minutes: workout.duration_in_minutes,
+          trainee_ids: workout.trainee_ids,
+          trainer_ids: workout.trainer_ids,
+        },
+      },
       {
         headers: {
           "Content-Type": "application/json",
@@ -69,9 +66,6 @@ export const updateWorkout = async (workout) => {
     console.log(`${calculateCurrentTime()} - Error: ${error}`);
   }
 };
-
-
-
 
 // CRUD TRAINEE
 
@@ -123,12 +117,9 @@ export const getTraineeById = async (traineeId) => {
 
 export const getTrainersWithPagination = async (page = 1) => {
   try {
-    const response = await axios.get(
-      `http://localhost:3000/api/v1/trainers`,
-      {
-        params: { page: page },
-      }
-    );
+    const response = await axios.get(`http://localhost:3000/api/v1/trainers`, {
+      params: { page: page },
+    });
     return response.data;
   } catch (error) {
     console.log(`${calculateCurrentTime()} - Error: ${error}`);
@@ -201,12 +192,9 @@ export const createTrainer = async (trainer) => {
 
 export const getTraineesWithPagination = async (page = 1) => {
   try {
-    const response = await axios.get(
-      `http://localhost:3000/api/v1/trainees`,
-      {
-        params: { page: page },
-      }
-    );
+    const response = await axios.get(`http://localhost:3000/api/v1/trainees`, {
+      params: { page: page },
+    });
     return response.data;
   } catch (error) {
     console.log(`${calculateCurrentTime()} - Error: ${error}`);
@@ -232,6 +220,18 @@ export const getMonthWorkouts = async (year, month) => {
     console.log(`${calculateCurrentTime()} - Error: ${error}`);
   }
 };
+
+export const getTrainerById = async (trainerId) => {
+  try {
+    const response = await axios.get(
+      "http://localhost:3000/api/v1/trainers/" + trainerId
+    );
+    return response.data;
+  } catch (error) {
+    console.log(`${calculateCurrentTime()} - Error: ${error}`);
+  }
+};
+
 
 export const updateTrainer = async (trainer) => {
   try {
