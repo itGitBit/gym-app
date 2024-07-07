@@ -2,7 +2,7 @@
     <div class="main">
         <h1>
             Hello
-            <RouterLink title="Edit your details, man!" class="router-link" to="/update-trainee">
+            <RouterLink title="Edit your details, man!" class="router-link" :to="{ name: 'TraineeEdit', params: { traineeId: store.getUser().id } }">
                 {{ trainee.name }}
             </RouterLink>
         </h1>

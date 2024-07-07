@@ -1,15 +1,35 @@
 <template>
   <div class="main">
     <h1>Edit Trainee</h1>
-    <p>Trainee ID: {{ traineeId }}</p>
     <div class="trainee-edit" v-if="trainee">
-      <input v-model="trainee.name" type="text" placeholder="Name" />
-      <input v-model="trainee.email" type="email" placeholder="Email" />
-      <input v-model="trainee.phone" type="tel" placeholder="Phone" />
-      <button class="reset-button" @click="obliterateTrainee(trainee.id)">
+      <form @submit.prevent="rewriteTrainee" class="edit-form">
+        <label class="edit-field" for="name">Name:</label>
+        <input
+          class="edit-field"
+          type="text"
+          id="name"
+          v-model="trainee.name"
+        />
+        <label class="edit-field" for="email">Email:</label>
+        <input
+          class="edit-field"
+          type="email"
+          id="email"
+          v-model="trainee.email"
+        />
+        <label class="edit-field" for="phone">Phone:</label>
+        <input
+          class="edit-field"
+          type="tel"
+          id="phone"
+          v-model="trainee.phone"
+        />
+        <button v-if="store.getUser().type !== 'trainer'" type="button" class="reset-button" @click="obliterateTrainee(trainee.id)">
         Delete
       </button>
-      <button @click="rewriteTrainee">Update Trainee</button>
+        <button class="edit-field" type="submit">Submit</button>
+      </form>
+
     </div>
   </div>
 </template>
@@ -17,6 +37,7 @@
 <script setup>
 import { useRouter, useRoute } from "vue-router";
 import { ref, onMounted } from "vue";
+import { useUserStore } from "../../../stores/userStores.js";
 import {
   getTraineeById,
   updateTrainee,
@@ -24,6 +45,7 @@ import {
 } from "../../../Utils/apiCalls.js";
 
 const router = useRouter();
+const store = useUserStore();
 const route = useRoute();
 const traineeId = route.params.traineeId;
 const trainee = ref(null);
@@ -31,6 +53,13 @@ const trainee = ref(null);
 const rewriteTrainee = async () => {
   const response = await updateTrainee(trainee.value);
   trainee.value = response;
+  console.log(traineeId, store.getUser().id);
+  if (store.getUser().id == traineeId) {
+    store.setUser({...response, type: "trainee"});
+    router.push("/trainee-dashboard");
+    return;
+  }
+  router.push("/trainees");
 };
 
 const getTraineeAndRefIt = async () => {
@@ -60,5 +89,18 @@ button {
   margin-bottom: 0rem;
   padding: 0.5rem;
   font-size: 1rem;
+}
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.edit-field button {
+  margin: 10px;
+}
+label {
+  margin: 8px;
 }
 </style>

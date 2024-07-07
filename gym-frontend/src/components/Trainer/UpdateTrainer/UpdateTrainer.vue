@@ -62,8 +62,8 @@ const onEditDetails = () => {
 const onSubmitForm = async () => {
   const response = await updateTrainer(trainer.value);
   trainer.value = response;
-  if(trainerId === store.getUser().id) {
-    store.setUser(response);
+  if(trainer.value.id === store.getUser().id) {
+    store.setUser({...trainer.value, type: 'trainer'});
   }
   isEditting.value = false;
 };

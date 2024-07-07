@@ -39,6 +39,7 @@ const routes = [
     path: "/update-workout/:workoutId",
     name: "UpdateWorkout",
     component: UpdateWorkout,
+    props: true,
   },
   {
     path: "/workouts",
@@ -49,6 +50,7 @@ const routes = [
     path: "/update-trainer/:trainerId",
     name: "UpdateTrainer",
     component: UpdateTrainer,
+    props: true,
   },
   {
     path: "/trainees",
@@ -74,6 +76,7 @@ const routes = [
     path: "/trainee-edit/:traineeId",
     name: "TraineeEdit",
     component: TraineeEdit,
+    props: true,
   },
   {
     path: '/add-trainer',

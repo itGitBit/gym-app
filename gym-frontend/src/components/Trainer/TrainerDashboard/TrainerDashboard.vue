@@ -2,9 +2,9 @@
   <div class="main">
     <h1>
       Hello
-      <RouterLink
-        :to="{ name: 'UpdateTrainer', params: { trainerId: trainer.id } }"
-        ><button class="trainer-button">{{ trainer.name }}</button></RouterLink
+      <RouterLink title="Edit your details, man!" class="router-link"
+        :to="{ name: 'UpdateTrainer', params: { trainerId: store.getUser().id } }"
+        >{{ trainer.name }}</RouterLink
       >
     </h1>
     <h2>What would you like to do?</h2>
@@ -47,7 +47,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useUserStore } from "../../../stores/userStores.js";
 
@@ -55,8 +55,18 @@ const router = useRouter();
 const store = useUserStore();
 const trainer = ref({});
 
+watch(
+  () => store.isUserLoggedIn(),
+  (newVal) => {
+    if (!newVal) {
+      router.push("/trainer-login");
+    }
+  }
+);
+
 onMounted(() => {
   trainer.value = store.getUser();
+
   if (trainer.value.type !== "trainer") {
     store.clearUser();
     router.push("/trainer-login");

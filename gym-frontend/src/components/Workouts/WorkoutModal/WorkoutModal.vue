@@ -19,7 +19,7 @@
           <th>Trainees</th>
           <th>Time</th>
           <th>Duration</th>
-          <th>Actions</th>
+          <th v-if="user.type==='trainer'">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -47,11 +47,11 @@
           <td>{{ ` ${formatWorkoutTime(workout.start_time)}` }}</td>
           <td>{{ workout.duration_in_minutes }} minutes</td>
           <td>
-            <RouterLink
+            <RouterLink v-if="user.type==='trainer'"
               :to="{ name: 'UpdateWorkout', params: { workoutId: workout.id } }"
               ><button>Edit</button></RouterLink
             >
-            <button
+            <button v-if="user.type==='trainer'"
               @click="obliterateWorkout(workout.id)"
               class="delete-button"
             >
@@ -72,6 +72,8 @@ import dayjs from "dayjs";
 import { ref, onMounted, defineEmits } from "vue";
 import { deleteWorkout } from "../../../Utils/apiCalls.js";
 import ParticipantList from "../ParticipantList/ParticipantList.vue";
+import { useUserStore } from "../../../stores/userStores";
+
 
 const props = defineProps({
   workouts: {
@@ -80,9 +82,10 @@ const props = defineProps({
   },
 });
 const emit = defineEmits(["closeModal", "workoutsUpdated"]);
-
+const store = useUserStore();
 const isParticipantsModalOpen = ref(false);
 const participantsForModal = ref([]);
+const user = ref(store.getUser());
 
 const openTrainersModal = (workout_trainers) => {
   let trainers = [];

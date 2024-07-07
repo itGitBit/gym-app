@@ -23,6 +23,7 @@ const router = useRouter();
 const email = ref("");
 
 const submitLoginForm = async () => {
+  store.clearUser();
   const trainee = await traineeLogin(email.value);
   store.clearUser();
   store.setUser({

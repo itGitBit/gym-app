@@ -9,7 +9,6 @@ await page.getByRole('button', { name: 'Select' }).click();
 });
 
 test('createWorkout', async ({ page }) => {
-  await page.goto('http://localhost:5173');
 await page.goto('http://localhost:5173/');
 await page.getByRole('button', { name: 'Trainer', exact: true }).click();
 await page.getByRole('combobox').selectOption('{"id":5,"name":"Shai Rubinstein","email":"shai@posit.co.il","phone":"0528572942","created_at":"2024-06-30T21:49:05.649+03:00","updated_at":"2024-06-30T21:49:05.649+03:00"}');
@@ -32,6 +31,7 @@ await page.getByRole('button', { name: 'View Workouts' }).click();
 });
 
 test('editWorkout', async ({ page }) => {
-
+  await page.goto('http://localhost:5173');
+  
 
 });

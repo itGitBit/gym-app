@@ -32,10 +32,13 @@ import { ref, watch } from "vue";
 import { useUserStore } from "../../stores/userStores.js";
 import { useRouter } from "vue-router";
 
+
 const router = useRouter();
 const store = useUserStore();
 const loggedIn = ref(store.isUserLoggedIn());
 const user = ref(store.getUser());
+
+const emit = defineEmits(["logout"]);
 
 watch(
   () => store.isUserLoggedIn(),
@@ -52,10 +55,12 @@ watch(
 );
 
 const logout = () => {
-  store.clearUser();
   loggedIn.value = false;
-  router.push("/");
+  store.clearUser();
+  emit("logout");
 };
+
+
 </script>
 <style scoped>
 header {
