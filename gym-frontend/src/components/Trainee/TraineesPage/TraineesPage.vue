@@ -9,7 +9,7 @@
           <p class="trainee-last-workout">Last Workout: {{ trainee.last_workout_date || 'Never' }}</p>
           <div class="trainee-buttons">
             <button @click="obliterateTrainee(trainee.id)" class="trainee-button">Delete</button>
-            <RouterLink :to="{ name: 'TraineeEdit', params: { traineeId: trainee.id } }"><button class="trainee-button">Edit</button></RouterLink>
+            <RouterLink :to="{ name: 'UpdateTrainee', params: { traineeId: trainee.id } }"><button class="trainee-button">Edit</button></RouterLink>
           </div>
         </div>
       </div>

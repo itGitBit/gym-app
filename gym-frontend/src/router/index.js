@@ -65,6 +65,7 @@ const routes = [
     name: "Trainees",
     component: TraineesNav,
     children: [
+      { path: "all", name: "TraineesPage", component: TraineesPage },
       { path: "create", name: "CreateTrainee", component: CreateTrainee },
       {
         path: "update/:traineeId",
@@ -72,7 +73,7 @@ const routes = [
         component: TraineeEdit,
         props: true,
       },
-      { path: "all", name: "TraineesPage", component: TraineesPage },
+      
       { path: "login", name: "TraineeLogin", component: TraineeLogin },
       {
         path: "dashboard",

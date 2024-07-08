@@ -24,12 +24,16 @@
           id="phone"
           v-model="trainee.phone"
         />
-        <button v-if="store.getUser().type !== 'trainer'" type="button" class="reset-button" @click="obliterateTrainee(trainee.id)">
-        Delete
-      </button>
+        <button
+          v-if="store.getUser().type !== 'trainer'"
+          type="button"
+          class="reset-button"
+          @click="obliterateTrainee(trainee.id)"
+        >
+          Delete
+        </button>
         <button class="edit-field" type="submit">Submit</button>
       </form>
-
     </div>
   </div>
 </template>
@@ -43,7 +47,11 @@ import {
   updateTrainee,
   deleteTrainee,
 } from "../../../Utils/apiCalls.js";
+import { validateTrainee } from "../../../Utils/validations.js";
+import { useToast } from "vue-toastification";
+import { errorHandler } from "../../../Utils/errorHandler.js";
 
+const toast = useToast();
 const router = useRouter();
 const store = useUserStore();
 const route = useRoute();
@@ -51,16 +59,15 @@ const traineeId = route.params.traineeId;
 const trainee = ref(null);
 
 const rewriteTrainee = async () => {
-  const response = await updateTrainee(trainee.value);
-  trainee.value = response;
-  console.log(traineeId, store.getUser().id);
-  if (store.getUser().id == traineeId) {
-    store.setUser({...response, type: "trainee"});
-    router.push("/trainee-dashboard");
-    return;
-  }
-  router.push("/trainees");
-};
+    if (!validateTrainee(trainee.value)) return;
+    const response = await updateTrainee(trainee.value);
+    trainee.value = response;
+    if (store.getUser().id == traineeId) {
+      store.setUser({ ...response, type: "trainee" });
+      return;
+    }
+    toast.success(`Trainee ${response.name} updated`);
+ };
 
 const getTraineeAndRefIt = async () => {
   trainee.value = await getTraineeById(traineeId);

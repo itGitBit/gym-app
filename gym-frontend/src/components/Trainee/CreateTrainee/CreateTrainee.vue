@@ -48,6 +48,7 @@ import { createTrainee } from "../../../Utils/apiCalls.js";
 import { useRouter } from "vue-router";
 import { validateTrainee } from "../../../Utils/validations.js";
 import { useToast } from "vue-toastification";
+import { errorHandler } from "../../../Utils/errorHandler.js";
 
 const name = ref("");
 const email = ref("");
@@ -56,28 +57,25 @@ const router = useRouter();
 const toast = useToast();
 
 const onSubmit = async () => {
-  if (
-    !validateTrainee({
+    if (
+      !validateTrainee({
+        name: name.value,
+        email: email.value,
+        phone: phone.value,
+      })
+    ) {
+      return;
+    }
+    const newTrainee = {
       name: name.value,
       email: email.value,
       phone: phone.value,
-    })
-  ) {
-    return;
-  }
-
-  const newTrainee = {
-    name: name.value,
-    email: email.value,
-    phone: phone.value,
-  };
-  const response = await createTrainee(newTrainee);
-  if (response) {
-    toast.success("Trainee created successfully");
-    onResetForm();
-    return;
-  }
-
+    };
+    const response = await createTrainee(newTrainee);
+    if (response && !response.error) {
+      toast.success(`Trainee ${response.name} created successfully`);
+      onResetForm();
+    }
 };
 
 const onResetForm = () => {
@@ -85,4 +83,5 @@ const onResetForm = () => {
   email.value = "";
   phone.value = "";
 };
+
 </script>

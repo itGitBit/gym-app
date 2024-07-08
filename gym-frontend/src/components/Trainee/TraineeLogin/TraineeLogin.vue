@@ -24,7 +24,6 @@ const router = useRouter();
 const email = ref("");
 
 const submitLoginForm = async () => {
-  try {
     const trainee = await traineeLogin(email.value);
     if (!trainee) {
       return;
@@ -39,9 +38,6 @@ const submitLoginForm = async () => {
       type: "trainee",
     });
     router.push("/trainees/dashboard");
-  } catch (err) {
-    toast.error("Invalid email");
-  }
 };
 
 onMounted(() => {

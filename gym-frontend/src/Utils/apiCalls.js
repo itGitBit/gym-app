@@ -1,15 +1,7 @@
 import axios from "axios";
-import { useToast } from "vue-toastification";
+import { errorHandler } from "./errorHandler";
 
-const toast = useToast();
 const baseURL = "http://localhost:3000/api/v1/";
-
-const showErrorToast = (error, defaultMessage) => {
-  const message = error.message || defaultMessage;
-  toast.error(message);
-  console.log(`${calculateCurrentTime()} - Error: ${message}`);
-};
-
 
 // Workouts
 export const createWorkout = async (workout) => {
@@ -21,7 +13,7 @@ export const createWorkout = async (workout) => {
     });
     return response.data;
   } catch (error) {
-    showErrorToast(error, "Error creating workout");
+    errorHandler(error);
   }
 };
 
@@ -30,7 +22,7 @@ export const getWorkoutById = async (workoutId) => {
     const response = await axios.get(`${baseURL}workouts/${workoutId}`);
     return response.data;
   } catch (error) {
-    showErrorToast(error, "Error fetching workout by ID");
+    errorHandler(error);
   }
 };
 
@@ -55,7 +47,7 @@ export const updateWorkout = async (workout) => {
     );
     return response.data;
   } catch (error) {
-    showErrorToast(error, "Error updating workout");
+    errorHandler(error);
   }
 };
 
@@ -64,16 +56,18 @@ export const deleteWorkout = async (workoutId) => {
     const response = await axios.delete(`${baseURL}workouts/${workoutId}`);
     return response.data;
   } catch (error) {
-    showErrorToast(error, "Error deleting workout");
+    errorHandler(error);
   }
 };
 
 export const getMonthWorkouts = async (year, month) => {
   try {
-    const response = await axios.get(`${baseURL}workouts/month/${year}/${month}`);
+    const response = await axios.get(
+      `${baseURL}workouts/month/${year}/${month}`
+    );
     return response.data;
   } catch (error) {
-    showErrorToast(error, "Error fetching month workouts");
+    errorHandler(error);
   }
 };
 
@@ -82,7 +76,7 @@ export const getAllWorkouts = async () => {
     const response = await axios.get(`${baseURL}workouts`);
     return response.data;
   } catch (error) {
-    showErrorToast(error, "Error fetching all workouts");
+    errorHandler(error);
   }
 };
 
@@ -96,7 +90,7 @@ export const createTrainee = async (trainee) => {
     });
     return response.data;
   } catch (error) {
-    showErrorToast(error, "Error creating trainee");
+    errorHandler(error);
   }
 };
 
@@ -105,7 +99,8 @@ export const getTraineeById = async (traineeId) => {
     const response = await axios.get(`${baseURL}trainees/${traineeId}`);
     return response.data;
   } catch (error) {
-    showErrorToast(error, "Error fetching trainee by ID");
+    
+    errorHandler(error);
   }
 };
 
@@ -126,7 +121,7 @@ export const updateTrainee = async (trainee) => {
     );
     return response.data;
   } catch (error) {
-    showErrorToast(error, "Error updating trainee");
+    errorHandler(error);
   }
 };
 
@@ -135,7 +130,7 @@ export const deleteTrainee = async (id) => {
     const response = await axios.delete(`${baseURL}trainees/${id}`);
     return response.data;
   } catch (error) {
-    showErrorToast(error, "Error deleting trainee");
+    errorHandler(error);
   }
 };
 
@@ -146,11 +141,7 @@ export const traineeLogin = async (email) => {
     });
     return response.data;
   } catch (error) {
-    if (error.response && error.response.status === 404) {
-      toast.error("User not found");
-    } else {
-      showErrorToast(error, "An unknown error occurred");
-    }
+    errorHandler(error);
   }
 };
 
@@ -161,7 +152,7 @@ export const getTraineesWithPagination = async (page = 1) => {
     });
     return response.data;
   } catch (error) {
-    showErrorToast(error, "Error fetching trainees with pagination");
+    errorHandler(error);
   }
 };
 
@@ -170,7 +161,7 @@ export const getAllTrainees = async () => {
     const response = await axios.get(`${baseURL}trainees`);
     return response.data;
   } catch (error) {
-    showErrorToast(error, "Error fetching all trainees");
+    errorHandler(error);
   }
 };
 
@@ -184,7 +175,7 @@ export const createTrainer = async (trainer) => {
     });
     return response.data;
   } catch (error) {
-    showErrorToast(error, "Error creating trainer");
+    errorHandler(error);
   }
 };
 
@@ -193,7 +184,7 @@ export const getTrainerById = async (trainerId) => {
     const response = await axios.get(`${baseURL}trainers/${trainerId}`);
     return response.data;
   } catch (error) {
-    showErrorToast(error, "Error fetching trainer by ID");
+    errorHandler(error);
   }
 };
 
@@ -214,7 +205,7 @@ export const updateTrainer = async (trainer) => {
     );
     return response.data;
   } catch (error) {
-    showErrorToast(error, "Error updating trainer");
+    errorHandler(error);
   }
 };
 
@@ -223,7 +214,7 @@ export const deleteTrainer = async (id) => {
     const response = await axios.delete(`${baseURL}trainers/${id}`);
     return response.data;
   } catch (error) {
-    showErrorToast(error, "Error deleting trainer");
+    errorHandler(error);
   }
 };
 
@@ -234,7 +225,7 @@ export const getTrainersWithPagination = async (page = 1) => {
     });
     return response.data;
   } catch (error) {
-    showErrorToast(error, "Error fetching trainers with pagination");
+    errorHandler(error);
   }
 };
 
@@ -243,6 +234,6 @@ export const getAllTrainers = async () => {
     const response = await axios.get(`${baseURL}trainers`);
     return response.data;
   } catch (error) {
-    showErrorToast(error, "Error fetching all trainers");
+    errorHandler(error);
   }
 };
