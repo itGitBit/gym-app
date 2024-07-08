@@ -16,24 +16,32 @@ import { ref, onMounted } from "vue";
 import { traineeLogin } from "../../../Utils/apiCalls.js";
 import { useRouter } from "vue-router";
 import { useUserStore } from "../../../stores/userStores.js";
+import { useToast } from 'vue-toastification';
 
+const toast = useToast();
 const store = useUserStore();
-
 const router = useRouter();
 const email = ref("");
 
 const submitLoginForm = async () => {
-  store.clearUser();
-  const trainee = await traineeLogin(email.value);
-  store.clearUser();
-  store.setUser({
-    id: trainee.id,
-    name: trainee.name,
-    email: trainee.email,
-    phone: trainee.phone,
-    type: "trainee",
-  });
-  router.push("/trainee-dashboard");
+  try {
+    const trainee = await traineeLogin(email.value);
+    if (!trainee) {
+      return;
+    }
+    store.clearUser();
+    store.clearUser();
+    store.setUser({
+      id: trainee.id,
+      name: trainee.name,
+      email: trainee.email,
+      phone: trainee.phone,
+      type: "trainee",
+    });
+    router.push("/trainees/dashboard");
+  } catch (err) {
+    toast.error("Invalid email");
+  }
 };
 
 onMounted(() => {

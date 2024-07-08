@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import Header from './components/Header/Header.vue';
 import { RouterLink, RouterView, useRouter } from 'vue-router';
 
@@ -12,7 +12,7 @@ const logout = () => {
 
 <template>
 <header>
-  <Header @logout="logout" />
+ <Header />
 </header>
   <main >
     <span>

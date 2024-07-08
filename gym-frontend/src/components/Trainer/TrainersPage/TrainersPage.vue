@@ -43,7 +43,10 @@ import {
 } from "../../../Utils/apiCalls.js";
 import { useRouter } from "vue-router";
 import { useUserStore } from "../../../stores/userStores.js";
+import { useToast } from "vue-toastification";
 
+
+const toast = useToast();
 const store = useUserStore();
 const router = useRouter();
 const trainers = ref([]);
@@ -59,16 +62,13 @@ const fetchTrainers = async (page) => {
 };
 
 const obliterateTrainer = async (id) => {
-  if (confirm("Are you sure you want to delete this trainer?")) {
+ if(confirm("Are you sure you want to delete this trainer?")) {
     await deleteTrainer(id);
     await fetchTrainers(currentPage.value);
   }
 };
 
 onMounted(() => {
-  if (store.getUser().type !== "trainer") {
-    router.push("/");
-  }
   fetchTrainers(currentPage.value);
 });
 </script>

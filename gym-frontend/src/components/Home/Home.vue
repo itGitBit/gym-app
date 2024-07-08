@@ -4,14 +4,17 @@
         <h2>Are you a trainer or a trainee?</h2>
 
         <span class="user-type-btn">
-            <RouterLink to="/trainer-login"><button>Trainer</button></RouterLink>
+            <RouterLink to="/trainers/login"><button>Trainer</button></RouterLink>
         </span>
         <span class="user-type-btn">
-            <RouterLink to="/trainee-login"><button>Trainee</button></RouterLink>
+            <RouterLink to="/trainees/login"><button>Trainee</button></RouterLink>
         </span>
     </div>
 </template>
 <script setup>
+import { RouterLink } from 'vue-router';
+
+
 
 </script>
 

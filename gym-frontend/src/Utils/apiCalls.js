@@ -1,50 +1,43 @@
 import axios from "axios";
+import { useToast } from "vue-toastification";
 
-// CRUD WORKOUT
+const toast = useToast();
+const baseURL = "http://localhost:3000/api/v1/";
 
-export const createWorkout = async (workout) => {
-  try {
-    const response = await axios.post(
-      "http://localhost:3000/api/v1/workouts",
-      workout,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    return response.data;
-  } catch (error) {
-    console.log(`${calculateCurrentTime()} - Error: ${error}`);
-  }
+const showErrorToast = (error, defaultMessage) => {
+  const message = error.message || defaultMessage;
+  toast.error(message);
+  console.log(`${calculateCurrentTime()} - Error: ${message}`);
 };
 
-export const deleteWorkout = async (workoutId) => {
+
+// Workouts
+export const createWorkout = async (workout) => {
   try {
-    const response = await axios.delete(
-      `http://localhost:3000/api/v1/workouts/${workoutId}`
-    );
+    const response = await axios.post(`${baseURL}workouts`, workout, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     return response.data;
   } catch (error) {
-    console.log(`${calculateCurrentTime()} - Error: ${error}`);
+    showErrorToast(error, "Error creating workout");
   }
 };
 
 export const getWorkoutById = async (workoutId) => {
   try {
-    const response = await axios.get(
-      `http://localhost:3000/api/v1/workouts/${workoutId}`
-    );
+    const response = await axios.get(`${baseURL}workouts/${workoutId}`);
     return response.data;
   } catch (error) {
-    console.log(`${calculateCurrentTime()} - Error: ${error}`);
+    showErrorToast(error, "Error fetching workout by ID");
   }
 };
 
 export const updateWorkout = async (workout) => {
   try {
     const response = await axios.put(
-      `http://localhost:3000/api/v1/workouts/${workout.id}`,
+      `${baseURL}workouts/${workout.id}`,
       {
         workout: {
           date: workout.date,
@@ -60,19 +53,66 @@ export const updateWorkout = async (workout) => {
         },
       }
     );
-
     return response.data;
   } catch (error) {
-    console.log(`${calculateCurrentTime()} - Error: ${error}`);
+    showErrorToast(error, "Error updating workout");
   }
 };
 
-// CRUD TRAINEE
+export const deleteWorkout = async (workoutId) => {
+  try {
+    const response = await axios.delete(`${baseURL}workouts/${workoutId}`);
+    return response.data;
+  } catch (error) {
+    showErrorToast(error, "Error deleting workout");
+  }
+};
+
+export const getMonthWorkouts = async (year, month) => {
+  try {
+    const response = await axios.get(`${baseURL}workouts/month/${year}/${month}`);
+    return response.data;
+  } catch (error) {
+    showErrorToast(error, "Error fetching month workouts");
+  }
+};
+
+export const getAllWorkouts = async () => {
+  try {
+    const response = await axios.get(`${baseURL}workouts`);
+    return response.data;
+  } catch (error) {
+    showErrorToast(error, "Error fetching all workouts");
+  }
+};
+
+// Trainees
+export const createTrainee = async (trainee) => {
+  try {
+    const response = await axios.post(`${baseURL}trainees`, trainee, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    showErrorToast(error, "Error creating trainee");
+  }
+};
+
+export const getTraineeById = async (traineeId) => {
+  try {
+    const response = await axios.get(`${baseURL}trainees/${traineeId}`);
+    return response.data;
+  } catch (error) {
+    showErrorToast(error, "Error fetching trainee by ID");
+  }
+};
 
 export const updateTrainee = async (trainee) => {
   try {
     const response = await axios.put(
-      `http://localhost:3000/api/v1/trainees/${trainee.id}`,
+      `${baseURL}trainees/${trainee.id}`,
       {
         name: trainee.name,
         email: trainee.email,
@@ -86,157 +126,81 @@ export const updateTrainee = async (trainee) => {
     );
     return response.data;
   } catch (error) {
-    console.log(`${calculateCurrentTime()} - Error: ${error}`);
-  }
-};
-
-export const traineeLogin = async (email) => {
-  try {
-    const response = await axios.get(
-      `http://localhost:3000/api/v1/trainees/findbyemail`,
-      {
-        params: { email: email },
-      }
-    );
-    return response.data;
-  } catch (error) {
-    console.log(`${calculateCurrentTime()} - Error: ${error}`);
-  }
-};
-
-export const getTraineeById = async (traineeId) => {
-  try {
-    const response = await axios.get(
-      `http://localhost:3000/api/v1/trainees/${traineeId}`
-    );
-    return response.data;
-  } catch (error) {
-    console.log(`${calculateCurrentTime()} - Error: ${error}`);
-  }
-};
-
-export const getTrainersWithPagination = async (page = 1) => {
-  try {
-    const response = await axios.get(`http://localhost:3000/api/v1/trainers`, {
-      params: { page: page },
-    });
-    return response.data;
-  } catch (error) {
-    console.log(`${calculateCurrentTime()} - Error: ${error}`);
-  }
-};
-
-export const getAllTrainers = async () => {
-  try {
-    const response = await axios.get(`http://localhost:3000/api/v1/trainers`);
-    return response.data;
-  } catch (error) {
-    console.log(`${calculateCurrentTime()} - Error: ${error}`);
-  }
-};
-export const deleteTrainer = async (id) => {
-  try {
-    const response = await axios.delete(
-      `http://localhost:3000/api/v1/trainers/${id}`
-    );
-    return response.data;
-  } catch (error) {
-    console.log(`${calculateCurrentTime()} - Error: ${error}`);
+    showErrorToast(error, "Error updating trainee");
   }
 };
 
 export const deleteTrainee = async (id) => {
   try {
-    const response = await axios.delete(
-      `http://localhost:3000/api/v1/trainees/${id}`
-    );
+    const response = await axios.delete(`${baseURL}trainees/${id}`);
     return response.data;
   } catch (error) {
-    console.log(`${calculateCurrentTime()} - Error: ${error}`);
+    showErrorToast(error, "Error deleting trainee");
   }
 };
 
-export const createTrainee = async (trainee) => {
+export const traineeLogin = async (email) => {
   try {
-    const response = await axios.post(
-      "http://localhost:3000/api/v1/trainees",
-      trainee,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const response = await axios.get(`${baseURL}trainees/findbyemail`, {
+      params: { email: email },
+    });
     return response.data;
   } catch (error) {
-    console.log(`${calculateCurrentTime()} - Error: ${error}`);
-  }
-};
-
-export const createTrainer = async (trainer) => {
-  try {
-    const response = await axios.post(
-      "http://localhost:3000/api/v1/trainers",
-      trainer,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    return response.data;
-  } catch (error) {
-    console.log(`${calculateCurrentTime()} - Error: ${error}`);
+    if (error.response && error.response.status === 404) {
+      toast.error("User not found");
+    } else {
+      showErrorToast(error, "An unknown error occurred");
+    }
   }
 };
 
 export const getTraineesWithPagination = async (page = 1) => {
   try {
-    const response = await axios.get(`http://localhost:3000/api/v1/trainees`, {
+    const response = await axios.get(`${baseURL}trainees`, {
       params: { page: page },
     });
     return response.data;
   } catch (error) {
-    console.log(`${calculateCurrentTime()} - Error: ${error}`);
+    showErrorToast(error, "Error fetching trainees with pagination");
   }
 };
 
 export const getAllTrainees = async () => {
   try {
-    const response = await axios.get(`http://localhost:3000/api/v1/trainees`);
+    const response = await axios.get(`${baseURL}trainees`);
     return response.data;
   } catch (error) {
-    console.log(`${calculateCurrentTime()} - Error: ${error}`);
+    showErrorToast(error, "Error fetching all trainees");
   }
 };
 
-export const getMonthWorkouts = async (year, month) => {
+// Trainers
+export const createTrainer = async (trainer) => {
   try {
-    const response = await axios.get(
-      `http://localhost:3000/api/v1/workouts/month/${year}/${month}`
-    );
+    const response = await axios.post(`${baseURL}trainers`, trainer, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     return response.data;
   } catch (error) {
-    console.log(`${calculateCurrentTime()} - Error: ${error}`);
+    showErrorToast(error, "Error creating trainer");
   }
 };
 
 export const getTrainerById = async (trainerId) => {
   try {
-    const response = await axios.get(
-      "http://localhost:3000/api/v1/trainers/" + trainerId
-    );
+    const response = await axios.get(`${baseURL}trainers/${trainerId}`);
     return response.data;
   } catch (error) {
-    console.log(`${calculateCurrentTime()} - Error: ${error}`);
+    showErrorToast(error, "Error fetching trainer by ID");
   }
 };
-
 
 export const updateTrainer = async (trainer) => {
   try {
     const response = await axios.put(
-      `http://localhost:3000/api/v1/trainers/${trainer.id}`,
+      `${baseURL}trainers/${trainer.id}`,
       {
         name: trainer.name,
         email: trainer.email,
@@ -250,23 +214,35 @@ export const updateTrainer = async (trainer) => {
     );
     return response.data;
   } catch (error) {
-    console.log(`${calculateCurrentTime()} - Error: ${error}`);
+    showErrorToast(error, "Error updating trainer");
   }
 };
 
-export const getAllWorkouts = async () => {
+export const deleteTrainer = async (id) => {
   try {
-    const response = await axios.get("http://localhost:3000/api/v1/workouts");
+    const response = await axios.delete(`${baseURL}trainers/${id}`);
     return response.data;
   } catch (error) {
-    console.log(`${calculateCurrentTime()} - Error: ${error}`);
+    showErrorToast(error, "Error deleting trainer");
   }
 };
 
-const calculateCurrentTime = () => {
-  const date = new Date();
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
-  const seconds = date.getSeconds();
-  return `${hours}:${minutes}:${seconds}`;
+export const getTrainersWithPagination = async (page = 1) => {
+  try {
+    const response = await axios.get(`${baseURL}trainers`, {
+      params: { page: page },
+    });
+    return response.data;
+  } catch (error) {
+    showErrorToast(error, "Error fetching trainers with pagination");
+  }
+};
+
+export const getAllTrainers = async () => {
+  try {
+    const response = await axios.get(`${baseURL}trainers`);
+    return response.data;
+  } catch (error) {
+    showErrorToast(error, "Error fetching all trainers");
+  }
 };

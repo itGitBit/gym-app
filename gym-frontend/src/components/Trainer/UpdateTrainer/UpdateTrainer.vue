@@ -15,27 +15,41 @@
     <div v-if="isEditting" class="edit-form">
       <h2>Edit Your Details:</h2>
       <form @submit.prevent="onSubmitForm" class="edit-form">
-        <label class="edit-field" for="name">Name:</label>
-        <input
-          class="edit-field"
-          type="text"
-          id="name"
-          v-model="trainer.name"
-        />
-        <label class="edit-field" for="email">Email:</label>
-        <input
-          class="edit-field"
-          type="email"
-          id="email"
-          v-model="trainer.email"
-        />
-        <label class="edit-field" for="phone">Phone:</label>
-        <input
-          class="edit-field"
-          type="tel"
-          id="phone"
-          v-model="trainer.phone"
-        />
+        <div class="edit-field">
+          <label class="edit-field" for="name">Name:</label>
+          <input
+            class="edit-field"
+            type="text"
+            id="name"
+            v-model="trainer.name"
+            required
+            min="3"
+            max="15"
+          />
+        </div>
+        <div class="edit-field">
+          <label class="edit-field" for="email">Email:</label>
+          <input
+            class="edit-field"
+            type="email"
+            id="email"
+            v-model="trainer.email"
+            required
+
+          />
+        </div>
+        <div class="edit-field">
+          <label class="edit-field" for="phone">Phone:</label>
+          <input
+            class="edit-field"
+            type="tel"
+            id="phone"
+            v-model="trainer.phone"
+            required
+            min="10"
+            max="10"
+          />
+        </div>
         <button class="edit-field" type="submit">Submit</button>
       </form>
     </div>
@@ -47,11 +61,15 @@ import { onMounted, ref } from "vue";
 import { updateTrainer, getTrainerById } from "../../../Utils/apiCalls.js";
 import { useUserStore } from "../../../stores/userStores.js";
 import { useRouter, useRoute } from "vue-router";
+import { useToast } from "vue-toastification";
+import { validateTrainer } from "../../../Utils/validations.js";
 
+const toast = useToast();
 const router = useRouter();
 const route = useRoute();
 const store = useUserStore();
 const trainer = ref({});
+const oldTrainer = ref({});
 const isEditting = ref(false);
 const trainerId = route.params.trainerId;
 
@@ -59,11 +77,21 @@ const onEditDetails = () => {
   isEditting.value = true;
 };
 
+
+
 const onSubmitForm = async () => {
+  if (oldTrainer.value === trainer.value) {
+    toast.error("No changes made");
+    isEditting.value = false;
+    return false;
+  }
+  if (!validateTrainer(trainer.value)) {
+    return;
+  }
   const response = await updateTrainer(trainer.value);
   trainer.value = response;
-  if(trainer.value.id === store.getUser().id) {
-    store.setUser({...trainer.value, type: 'trainer'});
+  if (trainer.value.id === store.getUser().id) {
+    store.setUser({ ...trainer.value, type: "trainer" });
   }
   isEditting.value = false;
 };
@@ -72,12 +100,13 @@ const getTrainerDetails = async () => {
   trainer.value = await getTrainerById(trainerId);
 };
 
-onMounted(() => {
+onMounted(async () => {
   if (trainerId !== store.getUser().id) {
-    getTrainerDetails();
+   await getTrainerDetails();
   } else {
     trainer.value = store.getUser();
   }
+  oldTrainer.value = trainer.value;
 });
 </script>
 
@@ -86,6 +115,11 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.edit-field {
+  display: flex;
+  align-self: center;
+  margin-top: 10px;
 }
 
 .edit-field button {

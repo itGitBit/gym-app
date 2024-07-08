@@ -5,20 +5,20 @@
         <button title="ET go home">Home</button>
       </RouterLink>
       <div v-if="!loggedIn" class="logged-out-links">
-        <RouterLink to="/trainer-login">
+        <RouterLink to="/trainers/login">
           <button class="nav-button" title="Trainer login">Trainer Login</button>
         </RouterLink>
-        <RouterLink to="/trainee-login">
+        <RouterLink to="/trainees/login">
           <button class="nav-button" title="Trainee login">Trainee Login</button>
         </RouterLink>
       </div>
 
       <div v-if="loggedIn" class="logged-in-links">
         <p>Welcome, {{ user.name }}</p>
-        <RouterLink v-if="user.type === 'trainer'" to="/trainer-dashboard">
+        <RouterLink v-if="user.type === 'trainer'" to="/trainers/dashboard">
           <button class="nav-button" title="Trainer dashboard">Trainer Dashboard</button>
         </RouterLink>
-        <RouterLink v-if="user.type === 'trainee'" to="/trainee-dashboard">
+        <RouterLink v-if="user.type === 'trainee'" to="/trainees/dashboard">
           <button class="nav-button" title="Trainee dashboard">Trainee Dashboard</button>
         </RouterLink>
         <button @click="logout" class="nav-button" title="Logout">Logout</button>
@@ -30,7 +30,7 @@
 <script setup>
 import { ref, watch } from "vue";
 import { useUserStore } from "../../stores/userStores.js";
-import { useRouter } from "vue-router";
+import { useRouter, RouterLink } from "vue-router";
 
 
 const router = useRouter();

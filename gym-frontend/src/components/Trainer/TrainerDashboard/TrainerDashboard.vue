@@ -12,34 +12,34 @@
       <RouterLink
         title="View your trainees"
         class="router-button"
-        to="/trainees"
+        to="/trainees/all"
         ><button>View Trainees</button></RouterLink
       >
-      <RouterLink title="View all trainers" class="router-button" to="/trainers"
+      <RouterLink title="View all trainers" class="router-button" to="all"
         ><button>View Trainers</button></RouterLink
       >
       <RouterLink
         title="View your workouts"
         class="router-button"
-        to="/workouts"
+        to="/workouts/all"
         ><button>View Workouts</button></RouterLink
       >
       <RouterLink
         title="Create a new workout"
         class="router-button"
-        to="/create-workout"
+        to="/workouts/create"
         ><button>Add Workout</button></RouterLink
       >
       <RouterLink
         title="Add a new trainee"
         class="router-button"
-        to="/add-trainee"
+        to="/trainees/create"
         ><button>Add Trainee</button></RouterLink
       >
       <RouterLink
-        title="Add a new trainee"
+        title="Add a new trainer"
         class="router-button"
-        to="/add-trainer"
+        to="create"
         ><button>Add Trainer</button></RouterLink
       >
     </div>
@@ -47,7 +47,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useUserStore } from "../../../stores/userStores.js";
 
@@ -55,21 +55,13 @@ const router = useRouter();
 const store = useUserStore();
 const trainer = ref({});
 
-watch(
-  () => store.isUserLoggedIn(),
-  (newVal) => {
-    if (!newVal) {
-      router.push("/trainer-login");
-    }
-  }
-);
 
 onMounted(() => {
   trainer.value = store.getUser();
 
   if (trainer.value.type !== "trainer") {
     store.clearUser();
-    router.push("/trainer-login");
+    router.push("/");
   }
 });
 </script>

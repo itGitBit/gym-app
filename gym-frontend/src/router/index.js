@@ -13,6 +13,10 @@ import TraineeEdit from "../components/Trainee/TraineeEdit/TraineeEdit.vue";
 import UpdateWorkout from "../components/Workouts/UpdateWorkout/UpdateWorkout.vue";
 import CreateTrainer from "../components/Trainer/CreateTrainer/CreateTrainer.vue";
 import TrainersPage from "../components/Trainer/TrainersPage/TrainersPage.vue";
+import TrainersNav from "../components/Trainer/TrainerNav/TrainerNav.vue";
+import TraineesNav from "../components/Trainee/TraineeNav/TraineeNav.vue";
+import path from "path";
+import WorkoutsNav from "../components/Workouts/WorkoutsNav/WorkoutsNav.vue";
 
 const routes = [
   {
@@ -21,74 +25,64 @@ const routes = [
     component: Home,
   },
   {
-    path: "/trainer-login",
-    name: "TrainerLogin",
-    component: TrainerLogin,
-  },
-  {
-    path: "/trainer-dashboard",
-    name: "TrainerDashboard",
-    component: TrainerDashboard,
-  },
-  {
-    path: "/create-workout",
-    name: "CreateWorkout",
-    component: CreateWorkout,
-  },
-  {
-    path: "/update-workout/:workoutId",
-    name: "UpdateWorkout",
-    component: UpdateWorkout,
-    props: true,
+    path: "/trainers",
+    name: "TrainerNav",
+    component: TrainersNav,
+    children: [
+      { path: "all", name: "TrainersPage", component: TrainersPage },
+      { path: "login", name: "TrainerLogin", component: TrainerLogin },
+      { path: "create", name: "CreateTrainer", component: CreateTrainer },
+      {
+        path: "update/:trainerId",
+        name: "UpdateTrainer",
+        component: UpdateTrainer,
+        props: true,
+      },
+      {
+        path: "dashboard",
+        name: "TrainerDashboard",
+        component: TrainerDashboard,
+      },
+    ],
   },
   {
     path: "/workouts",
-    name: "Workouts",
-    component: ViewWorkouts,
-  },
-  {
-    path: "/update-trainer/:trainerId",
-    name: "UpdateTrainer",
-    component: UpdateTrainer,
-    props: true,
+    name: "WorkoutsNav",
+    component: WorkoutsNav,
+    children: [
+      { path: "all", name: "ViewWorkouts", component: ViewWorkouts },
+      { path: "create", name: "CreateWorkout", component: CreateWorkout },
+      {
+        path: "update/:workoutId",
+        name: "UpdateWorkout",
+        component: UpdateWorkout,
+        props: true,
+      },
+    ],
   },
   {
     path: "/trainees",
     name: "Trainees",
-    component: TraineesPage,
+    component: TraineesNav,
+    children: [
+      { path: "create", name: "CreateTrainee", component: CreateTrainee },
+      {
+        path: "update/:traineeId",
+        name: "UpdateTrainee",
+        component: TraineeEdit,
+        props: true,
+      },
+      { path: "all", name: "TraineesPage", component: TraineesPage },
+      { path: "login", name: "TraineeLogin", component: TraineeLogin },
+      {
+        path: "dashboard",
+        name: "TraineeDashboard",
+        component: TraineeDashboard,
+      },
+    ],
   },
-  {
-    path: "/add-trainee",
-    name: "AddTrainee",
-    component: CreateTrainee,
-  },
-  {
-    path: "/trainee-login",
-    name: "TraineeLogin",
-    component: TraineeLogin,
-  },
-  {
-    path: "/trainee-dashboard",
-    name: "TraineeDashboard",
-    component: TraineeDashboard,
-  },
-  {
-    path: "/trainee-edit/:traineeId",
-    name: "TraineeEdit",
-    component: TraineeEdit,
-    props: true,
-  },
-  {
-    path: '/add-trainer',
-    name: 'AddTrainer',
-    component: CreateTrainer
-  },
-  {
-    path: '/trainers',
-    name: 'Trainers',
-    component: TrainersPage
-  }
 ];
+
 const router = createRouter({
   history: createWebHistory(),
   routes,
