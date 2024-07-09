@@ -6,7 +6,7 @@
                     <th>Name</th>
                     <th>Phone Number</th>
                 </thead>
-                <tr v-for="participant in participants">
+                <tr v-for="participant in participants" :key="participant.id">
                     <td>{{ participant.name }}</td>
                     <td>{{ participant.phone }}</td>
                 </tr>

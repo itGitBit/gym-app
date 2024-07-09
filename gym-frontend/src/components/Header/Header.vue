@@ -55,10 +55,8 @@ watch(
 );
 
 const logout = () => {
-  loggedIn.value = false;
   emit("logout");
 };
-
 
 </script>
 <style scoped>

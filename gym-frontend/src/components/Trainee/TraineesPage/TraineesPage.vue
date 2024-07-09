@@ -26,7 +26,9 @@ import { ref, onMounted } from 'vue';
 import { getTraineesWithPagination, deleteTrainee } from '../../../Utils/apiCalls.js';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '../../../stores/userStores.js';
+import { useToast } from 'vue-toastification';
 
+const toast = useToast();
 const store = useUserStore();
 const router = useRouter();
 const trainees = ref([]);
@@ -44,6 +46,7 @@ const fetchTrainees = async (page) => {
 const obliterateTrainee = async (id) => {
   if (confirm('Are you sure you want to delete this trainee?')) {
     await deleteTrainee(id);
+    toast.success('Trainee deleted successfully');
     fetchTrainees(currentPage.value);
   }
 };

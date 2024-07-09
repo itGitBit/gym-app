@@ -24,7 +24,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useUserStore } from "../../../stores/userStores.js";
 
@@ -35,11 +35,6 @@ const trainer = ref({});
 
 onMounted(() => {
   trainer.value = store.getUser();
-
-  if (trainer.value.type !== "trainer") {
-    store.clearUser();
-    router.push("/");
-  }
 });
 </script>
 

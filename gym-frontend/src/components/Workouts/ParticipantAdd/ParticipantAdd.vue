@@ -61,7 +61,7 @@
 </template>
 
 <script setup>
-import { ref, defineProps, defineEmits, watch, onMounted } from "vue";
+import { ref, watch, onMounted } from "vue";
 import TrainerDropdown from "../../Trainer/TrainerDropdown/TrainerDropdown.vue";
 import { useRouter } from "vue-router";
 import { useUserStore } from "../../../stores/userStores";

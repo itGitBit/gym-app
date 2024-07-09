@@ -50,6 +50,7 @@ const setTrainerLoginDetails = () => {
     phone: user.phone,
     type: "trainer",
   });
+  toast.success(`Welcome back, ${user.name}`);
   router.push("/trainers/dashboard");
 };
 

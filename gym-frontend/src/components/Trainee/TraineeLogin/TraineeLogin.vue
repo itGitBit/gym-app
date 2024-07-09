@@ -24,7 +24,6 @@ const submitLoginForm = async () => {
 
     return;
   }
-  toast.success("Login successful!");
   store.clearUser();
   store.setUser({
     id: trainee.id,
@@ -33,6 +32,7 @@ const submitLoginForm = async () => {
     phone: trainee.phone,
     type: "trainee",
   });
+  toast.success(`Welcome back, ${trainee.name}`);
   router.push("dashboard");
 };
 

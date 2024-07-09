@@ -16,7 +16,7 @@
   </select>
 </template>
 <script setup>
-import { defineProps, defineEmits, ref, defineExpose } from "vue";
+import { ref } from "vue";
 
 const props = defineProps({
   trainers: Array,

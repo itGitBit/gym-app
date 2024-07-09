@@ -6,8 +6,8 @@ import { useUserStore } from './stores/userStores';
 const router = useRouter();
 const store = useUserStore();
 
-const logoutPush = () => {
-  router.push('/');
+const logoutPush = async () => {
+  await router.push('/');
   store.clearUser();
 };
 
