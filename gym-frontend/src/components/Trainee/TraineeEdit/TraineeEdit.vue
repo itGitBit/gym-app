@@ -76,6 +76,12 @@ const getTraineeAndRefIt = async () => {
 const obliterateTrainee = async (id) => {
   if (confirm("Are you sure you want to delete this trainee?")) {
     await deleteTrainee(id);
+    toast.success("Trainee deleted");
+    if (store.getUser().id == id) {
+      store.clearUser();
+      router.push("/");
+      return;
+    }
     router.push("/trainees");
   }
 };

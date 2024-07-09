@@ -10,7 +10,7 @@
       <button
         v-if="isUserATrainer"
         type="button"
-        @click="router.push('/add-trainer')"
+        @click="router.push('/trainers/create')"
       >
         Create New Trainer
       </button>
@@ -43,7 +43,7 @@
           {{ trainee.name }}
         </option>
       </select>
-      <button type="button" @click="router.push('/add-trainee')">
+      <button type="button" @click="router.push('/trainees/create')">
         Create New Trainee
       </button>
     </div>

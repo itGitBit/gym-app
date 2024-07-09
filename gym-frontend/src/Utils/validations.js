@@ -7,6 +7,10 @@ export const validateWorkout = (workout) => {
     toast.error("Please enter a valid duration.");
     return false;
   }
+  if (workout.duration_in_minutes > 180) {
+    toast.error("Please enter a duration less than 180 minutes.");
+    return false;
+  }
   if (workout.date === "") {
     toast.error("Please enter a valid date.");
     return false;

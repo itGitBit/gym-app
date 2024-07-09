@@ -17,6 +17,7 @@ import TrainersNav from "../components/Trainer/TrainerNav/TrainerNav.vue";
 import TraineesNav from "../components/Trainee/TraineeNav/TraineeNav.vue";
 import path from "path";
 import WorkoutsNav from "../components/Workouts/WorkoutsNav/WorkoutsNav.vue";
+import { useUserStore } from "../stores/userStores";
 
 const routes = [
   {
@@ -73,7 +74,7 @@ const routes = [
         component: TraineeEdit,
         props: true,
       },
-      
+
       { path: "login", name: "TraineeLogin", component: TraineeLogin },
       {
         path: "dashboard",
@@ -87,6 +88,57 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+
+router.beforeEach((to, from) => {
+  const store = useUserStore();
+
+  // Workout routes
+  if (to.name == "ViewWorkouts" && store.isUserLoggedIn() === false) {
+    return { name: "Home" };
+  }
+  if (to.name == "CreateWorkout" && store.getUser().type !== "trainer") {
+    return { name: "TrainerLogin" };
+  }
+  if (to.name == "UpdateWorkout" && store.getUser().type !== "trainer") {
+    return { name: "TrainerLogin" };
+  }
+
+  // Trainer routes
+  if (to.name == "TrainerDashboard" && store.getUser().type !== "trainer") {
+    return { name: "TrainerLogin" };
+  }
+  if (to.name == "TrainersPage" && store.getUser().type !== "trainer") {
+    return { name: "TrainerLogin" };
+  }
+  if (to.name == "CreateTrainer" && store.getUser().type !== "trainer") {
+    return { name: "TrainerLogin" };
+  }
+  if (to.name == "UpdateTrainer" && store.getUser().type !== "trainer") {
+    return { name: "TrainerLogin" };
+  }
+
+  // Trainee routes
+  if (to.name == "TraineeDashboard" && store.getUser().type !== "trainee") {
+    return { name: "TraineeLogin" };
+  }
+  if (to.name == "TraineesPage" && store.getUser().type !== "trainer") {
+    return { name: "TrainerLogin" };
+  }
+  if (to.name == "CreateTrainee" && store.getUser().type !== "trainer") {
+    return { name: "TrainerLogin" };
+  }
+  if (to.name == "UpdateTrainee" && store.isUserLoggedIn() === false) {
+    return { name: "Home" };
+  }
+  if ((to.name == "TraineeLogin" || to.name == 'TrainerLogin') && store.getUser().type === 'trainee') {
+    return { name: 'TraineeDashboard' };
+  }
+  if ((to.name == "TrainerLogin" || to.name=='TraineeLogin' )&& store.getUser().type === 'trainer') {
+    return { name: 'TrainerDashboard' };
+  }
+
+  return true;
 });
 
 export default router;

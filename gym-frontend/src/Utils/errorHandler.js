@@ -11,7 +11,7 @@ export const errorHandler = (error) => {
     } else if (error.response.status === 422) {
       toast.error("Validation error. Please check your input.");
     } else if (error.response.status === 404) {
-      toast.error("Resource not found");
+      toast.error("Your details were not found, try again.");
     } else if (error.response.status === 500) {
       toast.error("Server error");
     } else {

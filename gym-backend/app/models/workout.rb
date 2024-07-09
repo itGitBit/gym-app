@@ -7,8 +7,7 @@ class Workout < ApplicationRecord
 
   validates :date, presence: true
   validates :start_time, presence: true
-  validates :duration_in_minutes, presence: true, numericality: { greater_than: 0 }
-
+  validates :duration_in_minutes, presence: true, numericality: { greater_than: 0, less_than: 181 }
 
   def update_with_associations(params)
     if self.update(params.except(:trainee_ids, :trainer_ids))
@@ -33,7 +32,7 @@ class Workout < ApplicationRecord
   def self.create_with_associations(date, start_time, duration_in_minutes, trainer_ids, trainee_ids)
     workout = Workout.new(date: date, start_time: start_time, duration_in_minutes: duration_in_minutes)
     if workout.save
-     trainer_ids.each do |trainer_id|
+      trainer_ids.each do |trainer_id|
         trainer = Trainer.find_by(id: trainer_id)
         unless trainer
           workout.errors.add(:base, "Trainer with id #{trainer_id} not found")
@@ -56,6 +55,7 @@ class Workout < ApplicationRecord
 
     workout
   end
+
   def trainee_ids=(ids)
     ids.each do |id|
       self.trainee_workouts.build(trainee_id: id)

@@ -17,7 +17,7 @@
         </div>
       </div>
     </div>
-    <button @click="router.push('/add-trainer')">Add New Trainer</button>
+    <button @click="router.push('/trainers/create')">Add New Trainer</button>
     <div class="pagination">
       <button
         @click="fetchTrainers(currentPage - 1)"

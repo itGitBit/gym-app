@@ -2,7 +2,7 @@
     <div class="main">
         <h1>
             Hello
-            <RouterLink title="Edit your details, man!" class="router-link" :to="{ name: 'TraineeEdit', params: { traineeId: store.getUser().id } }">
+            <RouterLink title="Edit your details, man!" class="router-link" :to="{ name: 'UpdateTrainee', params: { traineeId: store.getUser().id } }">
                 {{ trainee.name }}
             </RouterLink>
         </h1>
@@ -26,9 +26,5 @@ const trainee = ref({})
 
 onMounted(() => {
     trainee.value = store.getUser();
-    if (trainee.value.type !== 'trainee') {
-        store.clearUser();
-        router.push('/');
-    }
 });
 </script>

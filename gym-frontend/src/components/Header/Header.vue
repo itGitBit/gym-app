@@ -56,7 +56,6 @@ watch(
 
 const logout = () => {
   loggedIn.value = false;
-  store.clearUser();
   emit("logout");
 };
 

@@ -3,11 +3,11 @@ Rails.application.routes.draw do
     namespace :v1 do
       get "trainees/findbyemail", to: "trainees#find_by_email"
       get "workouts/month/:year/:month", to: "workouts#month_workouts"
-      resources :workouts, only: [:index, :show, :create, :update, :destroy]
-      resources :trainers, only: [:index, :show, :create, :update, :destroy]
-      resources :trainees, only: [:index, :show, :create, :update, :destroy]
-      resources :trainee_workouts, only: [:index, :show, :create, :update, :destroy]
-      resources :trainer_workouts, only: [:index, :show, :create, :update, :destroy]
+      resources :workouts, except: [:new, :edit]
+      resources :trainers, except: [:new, :edit]
+      resources :trainees, except: [:new, :edit]
+      resources :trainer_workouts, except: [:new, :edit]
+      resources :trainee_workouts, except: [:new, :edit]
     end
   end
 

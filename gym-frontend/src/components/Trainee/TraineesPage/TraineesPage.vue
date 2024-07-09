@@ -13,7 +13,7 @@
           </div>
         </div>
       </div>
-      <button @click="router.push('/add-trainee')" >Add New Trainee</button>
+      <button @click="router.push('/trainees/create')" >Add New Trainee</button>
       <div class="pagination">
         <button @click="fetchTrainees(currentPage - 1)" :disabled="currentPage === 1">Previous</button>
         <span>Page {{ currentPage }} of {{ totalPages }}</span>

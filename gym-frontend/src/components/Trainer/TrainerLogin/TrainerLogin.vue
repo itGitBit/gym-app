@@ -54,10 +54,6 @@ const setTrainerLoginDetails = () => {
 };
 
 onMounted(() => {
-  // if (store.isUserLoggedIn()) {
-  //     router.push('/trainer-dashboard');
-  //     return;
-  // }
   getTrainerList();
 });
 </script>

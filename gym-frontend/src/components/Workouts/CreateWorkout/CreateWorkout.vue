@@ -10,6 +10,7 @@
           id="workoutDuration"
           name="workoutDuration"
           required
+          max="180"
         />
       </div>
       <div class="input">
@@ -62,7 +63,9 @@ import { useRouter } from "vue-router";
 import { useUserStore } from "../../../stores/userStores";
 import AddParticipants from "../ParticipantAdd/ParticipantAdd.vue";
 import { validateWorkout } from "../../../Utils/validations";
+import { useToast } from "vue-toastification";
 
+const toast = useToast();
 const store = useUserStore();
 const router = useRouter();
 const trainers = ref([]);
@@ -104,7 +107,9 @@ const onSubmit = async () => {
     return;
   }
   const response = await createWorkout(workout);
-  router.push("/trainer-dashboard");
+  toast.success(`Workout created successfully! on ${formatDate()} at ${startTime.value}
+  `);
+  router.push("/trainers/dashboard");
 };
 
 const formatDate = () => {

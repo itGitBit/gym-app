@@ -1,18 +1,21 @@
 <script setup>
 import Header from './components/Header/Header.vue';
 import { RouterLink, RouterView, useRouter } from 'vue-router';
+import { useUserStore } from './stores/userStores';
 
 const router = useRouter();
+const store = useUserStore();
 
-const logout = () => {
+const logoutPush = () => {
   router.push('/');
+  store.clearUser();
 };
 
 </script>
 
 <template>
 <header>
- <Header />
+ <Header @logout="logoutPush" />
 </header>
   <main >
     <span>

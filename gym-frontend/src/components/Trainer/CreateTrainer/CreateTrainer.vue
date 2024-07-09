@@ -75,7 +75,7 @@ const onSubmit = async () => {
 
   const response = await createTrainer(newTrainer);
   onResetForm();
-  router.push("/trainer-dashboard");
+  router.push("/trainers/dashboard");
 };
 
 const onResetForm = () => {

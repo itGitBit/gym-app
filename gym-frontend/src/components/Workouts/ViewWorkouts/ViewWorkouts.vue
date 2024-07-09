@@ -44,7 +44,7 @@
     </div>
   </div>
   <div class="main">
-    <button v-if="user.type === 'trainer'" @click="router.push('/create-workout')">
+    <button v-if="user.type === 'trainer'" @click="router.push('/workouts/create')">
       Add Workout
     </button>
   </div>
