@@ -51,11 +51,15 @@ import { ref } from "vue";
 import { createTrainer } from "../../../Utils/apiCalls.js";
 import { useRouter } from "vue-router";
 import { validateTrainer } from "../../../Utils/validations.js";
+import { useToast } from "vue-toastification";
 
+const toast = useToast();
 const name = ref("");
 const email = ref("");
 const phone = ref("");
 const router = useRouter();
+
+const emit = defineEmits(["trainerCreated"]);
 
 const onSubmit = async () => {
   if (
@@ -74,8 +78,9 @@ const onSubmit = async () => {
   };
 
   const response = await createTrainer(newTrainer);
+  toast.success(`Trainer ${response.name} created successfully`);
+  emit("trainerCreated");
   onResetForm();
-  router.push("/trainers/dashboard");
 };
 
 const onResetForm = () => {

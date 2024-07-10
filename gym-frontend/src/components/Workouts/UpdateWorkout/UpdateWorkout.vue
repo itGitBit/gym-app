@@ -17,7 +17,7 @@
           <input v-model="workout.start_time" type="time" id="workoutStartTime" name="workoutStartTime" required />
         </div>
         <AddParticipants @changeWarningText="handleWarningText" @participantsSelected="updateParticipants"
-          :trainers="trainers" :trainees="trainees" :resetSignal="resetSignal" :updatedTrainers="trainersFromWorkout"
+          :resetSignal="resetSignal" :updatedTrainers="trainersFromWorkout"
           :updatedTrainees="traineesFromWorkout" />
         <div class="form-buttons">
           <p class="warning" v-if="warning">{{ warning }}</p>
@@ -25,9 +25,6 @@
             Delete Workout
           </button>
           <button type="submit">Update Workout</button>
-          <RouterLink to="/">
-            <button class="nav-button" title="Trainee login">Trainee Login</button>
-          </RouterLink>
         </div>
       </form>
     </div>
@@ -36,7 +33,7 @@
 
 <script setup>
 import { useRouter, useRoute } from "vue-router";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { getWorkoutById, updateWorkout, getAllTrainees, getAllTrainers } from "../../../Utils/apiCalls.js";
 import AddParticipants from "../ParticipantAdd/ParticipantAdd.vue";
 import { validateWorkout } from "../../../Utils/validations.js";
@@ -79,8 +76,9 @@ const handleSubmit = async () => {
     return;
   }
   const response = await updateWorkout(updatedWorkout);
-  router.push("/workouts");
+  router.push("/workouts/all");
 }
+
 
 const getTraineesAndTrainers = async () => {
   const trainersResponse = await getAllTrainers();

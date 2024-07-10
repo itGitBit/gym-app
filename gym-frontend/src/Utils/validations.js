@@ -19,14 +19,7 @@ export const validateWorkout = (workout) => {
     toast.error("Please enter a valid start time.");
     return false;
   }
-  if (workout.trainee_ids.length === 0) {
-    toast.error("Please select at least one trainee.");
-    return false;
-  }
-  if (workout.trainer_ids.length === 0) {
-    toast.error("Please select at least one trainer.");
-    return false;
-  }
+
   return true;
 };
 

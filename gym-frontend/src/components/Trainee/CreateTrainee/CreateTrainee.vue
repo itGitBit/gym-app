@@ -56,6 +56,8 @@ const phone = ref("");
 const router = useRouter();
 const toast = useToast();
 
+const emit = defineEmits(["addedTrainee"]);
+
 const onSubmit = async () => {
     if (
       !validateTrainee({
@@ -71,7 +73,8 @@ const onSubmit = async () => {
       email: email.value,
       phone: phone.value,
     };
-    const response = await createTrainee(newTrainee);
+  const response = await createTrainee(newTrainee);
+    emit("addedTrainee");
     if (response && !response.error) {
       toast.success(`Trainee ${response.name} created successfully`);
       onResetForm();

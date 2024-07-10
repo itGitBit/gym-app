@@ -11,13 +11,13 @@ class Workout < ApplicationRecord
 
   def update_with_associations(params)
     if self.update(params.except(:trainee_ids, :trainer_ids))
-      if params[:trainee_ids]
+      if !params[:trainee_ids].empty?
         self.trainee_workouts.destroy_all
         params[:trainee_ids].each do |trainee_id|
           self.trainee_workouts.create(trainee_id: trainee_id)
         end
       end
-      if params[:trainer_ids]
+      if !params[:trainer_ids].empty?
         self.trainer_workouts.destroy_all
         params[:trainer_ids].each do |trainer_id|
           self.trainer_workouts.create(trainer_id: trainer_id)
