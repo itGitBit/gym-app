@@ -2,13 +2,17 @@
   <div v-if="workoutModalVisible">
     <div class="overlay"></div>
     <div class="workout-modal">
-      <WorkoutModal
-        @closeModal="workoutModalVisible = false"
-        :workouts="workoutsForDayRef"
-        @workoutsUpdated="fetchMonthWorkouts"
-      />
+      <WorkoutModal @closeModal="workoutModalVisible = false" :workouts="workoutsForDayRef"
+        @workoutsUpdated="fetchMonthWorkouts" />
     </div>
   </div>
+  <sidebar>
+    <h1>Filter Workouts:</h1>
+    <div class="filter">
+      <h2>By Trainer: </h2>
+      <TrainerDropdown :trainers="trainers" @select-trainer="filterWorkoutsByTrainer" />
+    </div>
+  </sidebar>
   <div class="monthly-calendar">
     <div class="header">
       <button @click="previousMonth">&lt;</button>
@@ -22,18 +26,9 @@
       <div v-for="day in daysOfWeek" :key="day" class="day">{{ day }}</div>
     </div>
     <div class="days">
-      <div
-        v-for="day in daysInMonth"
-        :key="day.date"
-        class="day"
-        :class="{ 'has-workout': day.hasWorkout }"
-      >
+      <div v-for="day in daysInMonth" :key="day.date" class="day" :class="{ 'has-workout': day.hasWorkout }">
         {{ day.day }}
-        <span
-          @click="openWorkoutModal(day.workoutsForDay)"
-          v-if="day.hasWorkout"
-          class="workout-times"
-        >
+        <span @click="openWorkoutModal(day.workoutsForDay)" v-if="day.hasWorkout" class="workout-times">
           {{
             day.workoutsForDay.length > 1
               ? `${day.workoutsForDay.length} workouts`
@@ -57,6 +52,8 @@ import WorkoutModal from "../WorkoutModal/WorkoutModal.vue";
 import { getMonthWorkouts } from "../../../Utils/apiCalls";
 import { useUserStore } from "../../../stores/userStores";
 import { useRouter } from "vue-router";
+import TrainerDropdown from "../../Trainer/TrainerDropdown/TrainerDropdown.vue";
+import { getAllTrainers } from "../../../Utils/apiCalls";
 
 const router = useRouter();
 const store = useUserStore();
@@ -66,6 +63,8 @@ const workouts = ref([]);
 const workoutsForDayRef = ref([]);
 const workoutModalVisible = ref(false);
 const user = ref(store.getUser());
+const filteredTrainer = ref("");
+const trainers = ref([]);
 
 const daysInMonth = computed(() => {
   const firstDayOfMonth = currentMonth.value.startOf("month").day();
@@ -76,16 +75,16 @@ const daysInMonth = computed(() => {
     const date = currentMonth.value.date(i);
     const workoutsForDay = workouts.value
       ? workouts.value.filter((workout) =>
-          dayjs(workout.date).isSame(date, "day")
-        )
+        dayjs(workout.date).isSame(date, "day")
+      )
       : [];
     const hasWorkout = workoutsForDay.length > 0;
     const startTime = hasWorkout
       ? workoutsForDay
-          .map((workout) =>
-            workout.start_time.substring(0, workout.start_time.length - 3)
-          )
-          .join(" ")
+        .map((workout) =>
+          workout.start_time.substring(0, workout.start_time.length - 3)
+        )
+        .join(" ")
       : "";
 
     days.push({
@@ -135,12 +134,34 @@ const openWorkoutModal = (todaysWorkouts) => {
   workoutModalVisible.value = true;
 };
 
+const fetchTrainers = async () => {
+  const data = await getAllTrainers();
+  trainers.value = data;
+}
+
+
+const filterWorkoutsByTrainer = () => {
+   
+  if (filteredTrainer.value === "Select Profile") {
+    return;
+  }
+  const trainerWorkouts = workouts.value
+    .map(workout => workout.trainer_workouts)
+    .flat()
+    .map(tw => ({
+      trainer_id: tw.trainer_id,
+      workout_id: tw.workout_id
+    }));
+  console.log(trainerWorkouts);
+};
+
 onMounted(() => {
   if (!store.isUserLoggedIn()) {
     router.push("/");
     return;
   }
   fetchMonthWorkouts();
+  fetchTrainers();
 });
 </script>
 
