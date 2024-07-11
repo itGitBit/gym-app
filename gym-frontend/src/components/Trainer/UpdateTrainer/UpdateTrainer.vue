@@ -69,7 +69,6 @@ const router = useRouter();
 const route = useRoute();
 const store = useUserStore();
 const trainer = ref({});
-const oldTrainer = ref({});
 const isEditting = ref(false);
 const trainerId = route.params.trainerId;
 
@@ -80,11 +79,6 @@ const onEditDetails = () => {
 
 
 const onSubmitForm = async () => {
-  if (oldTrainer.value === trainer.value) {
-    toast.error("No changes made");
-    isEditting.value = false;
-    return false;
-  }
   if (!validateTrainer(trainer.value)) {
     return;
   }
@@ -106,7 +100,7 @@ onMounted(async () => {
   } else {
     trainer.value = store.getUser();
   }
-  oldTrainer.value = trainer.value;
+
 });
 </script>
 

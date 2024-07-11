@@ -31,8 +31,10 @@
 import { ref, watch } from "vue";
 import { useUserStore } from "../../stores/userStores.js";
 import { useRouter, RouterLink } from "vue-router";
+import { useToast } from "vue-toastification";
 
 
+const toast = useToast();
 const router = useRouter();
 const store = useUserStore();
 const loggedIn = ref(store.isUserLoggedIn());
@@ -55,6 +57,7 @@ watch(
 );
 
 const logout = () => {
+  toast.success("Logged out successfully");
   emit("logout");
 };
 

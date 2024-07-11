@@ -25,7 +25,7 @@
           v-model="trainee.phone"
         />
         <button
-          v-if="store.getUser().type !== 'trainer'"
+          v-if="store.getUser().type == 'trainer'"
           type="button"
           class="reset-button"
           @click="obliterateTrainee(trainee.id)"
@@ -49,7 +49,6 @@ import {
 } from "../../../Utils/apiCalls.js";
 import { validateTrainee } from "../../../Utils/validations.js";
 import { useToast } from "vue-toastification";
-import { errorHandler } from "../../../Utils/errorHandler.js";
 
 const toast = useToast();
 const router = useRouter();
@@ -66,6 +65,7 @@ const rewriteTrainee = async () => {
       store.setUser({ ...response, type: "trainee" });
       return;
     }
+
     toast.success(`Trainee ${response.name} updated`);
  };
 

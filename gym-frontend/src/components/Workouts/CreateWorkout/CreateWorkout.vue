@@ -106,6 +106,14 @@ const onSubmit = async () => {
   if (!validateWorkout(workout.workout)) {
     return;
   }
+  if(traineesIds.value.length === 0) {
+    handleWarningText("Please select at least one trainee");
+    return;
+  }
+  if(trainersIds.value.length === 0) {
+    handleWarningText("Please select at least one trainer");
+    return;
+  }
   const response = await createWorkout(workout);
   toast.success(`Workout created successfully! on ${formatDate()} at ${startTime.value}
   `);
