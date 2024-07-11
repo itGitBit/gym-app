@@ -32,7 +32,12 @@ const emit = defineEmits(["select-trainer"]);
 const trainerSelect = ref(null);
 
 const updateSelectedTrainer = (event) => {
-  emit("select-trainer", event.target.value);
+  if (event.target.value === "Select Profile") {
+    emit("select-trainer", "");
+    return;
+  }
+  const selectedTrainer = JSON.parse(event.target.value);
+  emit("select-trainer", selectedTrainer);
 };
 
 defineExpose({ reset });

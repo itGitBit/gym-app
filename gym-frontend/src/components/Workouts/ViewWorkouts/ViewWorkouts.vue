@@ -2,17 +2,23 @@
   <div v-if="workoutModalVisible">
     <div class="overlay"></div>
     <div class="workout-modal">
-      <WorkoutModal @closeModal="workoutModalVisible = false" :workouts="workoutsForDayRef"
-        @workoutsUpdated="fetchMonthWorkouts" />
+      <WorkoutModal
+        @closeModal="workoutModalVisible = false"
+        :workouts="workoutsForDayRef"
+        @workoutsUpdated="fetchMonthWorkouts"
+      />
     </div>
   </div>
-  <sidebar>
+  <aside>
     <h1>Filter Workouts:</h1>
     <div class="filter">
-      <h2>By Trainer: </h2>
-      <TrainerDropdown :trainers="trainers" @select-trainer="filterWorkoutsByTrainer" />
+      <h2>By Trainer:</h2>
+      <TrainerDropdown
+        :trainers="trainers"
+        @select-trainer="filterWorkoutsByTrainer"
+      />
     </div>
-  </sidebar>
+  </aside>
   <div class="monthly-calendar">
     <div class="header">
       <button @click="previousMonth">&lt;</button>
@@ -26,9 +32,18 @@
       <div v-for="day in daysOfWeek" :key="day" class="day">{{ day }}</div>
     </div>
     <div class="days">
-      <div v-for="day in daysInMonth" :key="day.date" class="day" :class="{ 'has-workout': day.hasWorkout }">
+      <div
+        v-for="day in daysInMonth"
+        :key="day.date"
+        class="day"
+        :class="{ 'has-workout': day.hasWorkout }"
+      >
         {{ day.day }}
-        <span @click="openWorkoutModal(day.workoutsForDay)" v-if="day.hasWorkout" class="workout-times">
+        <span
+          @click="openWorkoutModal(day.workoutsForDay)"
+          v-if="day.hasWorkout"
+          class="workout-times"
+        >
           {{
             day.workoutsForDay.length > 1
               ? `${day.workoutsForDay.length} workouts`
@@ -39,7 +54,10 @@
     </div>
   </div>
   <div class="main">
-    <button v-if="user.type === 'trainer'" @click="router.push('/workouts/create')">
+    <button
+      v-if="user.type === 'trainer'"
+      @click="router.push('/workouts/create')"
+    >
       Add Workout
     </button>
   </div>
@@ -65,6 +83,7 @@ const workoutModalVisible = ref(false);
 const user = ref(store.getUser());
 const filteredTrainer = ref("");
 const trainers = ref([]);
+const data = ref([]);
 
 const daysInMonth = computed(() => {
   const firstDayOfMonth = currentMonth.value.startOf("month").day();
@@ -75,16 +94,16 @@ const daysInMonth = computed(() => {
     const date = currentMonth.value.date(i);
     const workoutsForDay = workouts.value
       ? workouts.value.filter((workout) =>
-        dayjs(workout.date).isSame(date, "day")
-      )
+          dayjs(workout.date).isSame(date, "day")
+        )
       : [];
     const hasWorkout = workoutsForDay.length > 0;
     const startTime = hasWorkout
       ? workoutsForDay
-        .map((workout) =>
-          workout.start_time.substring(0, workout.start_time.length - 3)
-        )
-        .join(" ")
+          .map((workout) =>
+            workout.start_time.substring(0, workout.start_time.length - 3)
+          )
+          .join(" ")
       : "";
 
     days.push({
@@ -127,6 +146,7 @@ const fetchMonthWorkouts = async () => {
   const year = currentMonth.value.year();
   const month = currentMonth.value.month() + 1;
   workouts.value = await getMonthWorkouts(year, month);
+  data.value = workouts.value;
 };
 
 const openWorkoutModal = (todaysWorkouts) => {
@@ -137,22 +157,20 @@ const openWorkoutModal = (todaysWorkouts) => {
 const fetchTrainers = async () => {
   const data = await getAllTrainers();
   trainers.value = data;
-}
+};
 
-
-const filterWorkoutsByTrainer = () => {
-   
-  if (filteredTrainer.value === "Select Profile") {
+const filterWorkoutsByTrainer = (trainer) => {
+ 
+  filteredTrainer.value = trainer;
+  workouts.value = data.value;
+  if (trainer == '') {
     return;
   }
-  const trainerWorkouts = workouts.value
-    .map(workout => workout.trainer_workouts)
-    .flat()
-    .map(tw => ({
-      trainer_id: tw.trainer_id,
-      workout_id: tw.workout_id
-    }));
-  console.log(trainerWorkouts);
+  workouts.value = workouts.value.filter((workout) =>
+    workout.trainer_workouts.some(
+      (trainerWorkout) => trainerWorkout.trainer.id === trainer.id
+    )
+  );
 };
 
 onMounted(() => {
