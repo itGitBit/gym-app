@@ -2,7 +2,7 @@
   <div class="main">
     <h1>Edit Your Details</h1>
     <div v-if="!isEditting" class="options">
-      <h2>Your Details:</h2>
+      <h2>Trainer's Details:</h2>
       <div class="trainer-details">
         <p>Name: {{ trainer.name }}</p>
         <p>Email: {{ trainer.email }}</p>
@@ -13,7 +13,7 @@
     </div>
 
     <div v-if="isEditting" class="edit-form">
-      <h2>Edit Your Details:</h2>
+      <h2>Edit Details:</h2>
       <form @submit.prevent="onSubmitForm" class="edit-form">
         <div class="edit-field">
           <label class="edit-field" for="name">Name:</label>
@@ -51,6 +51,7 @@
           />
         </div>
         <button class="edit-field" type="submit">Submit</button>
+        <button class="edit-field" @click="isEditting=false" type="button">Canecl</button>
       </form>
     </div>
   </div>
@@ -87,7 +88,9 @@ const onSubmitForm = async () => {
   if (trainer.value.id === store.getUser().id) {
     store.setUser({ ...trainer.value, type: "trainer" });
   }
+  toast.success("Details updated successfully");
   isEditting.value = false;
+
 };
 
 const getTrainerDetails = async () => {

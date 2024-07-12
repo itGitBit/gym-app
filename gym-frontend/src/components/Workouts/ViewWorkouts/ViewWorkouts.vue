@@ -174,6 +174,9 @@ const filterWorkoutsByTrainer = (trainer) => {
 };
 
 onMounted(() => {
+  if (filteredTrainer.value) {
+    filterWorkoutsByTrainer(filteredTrainer.value);
+  }
   if (!store.isUserLoggedIn()) {
     router.push("/");
     return;
