@@ -7,7 +7,7 @@
             </RouterLink>
         </h1>
         <h2>What would you like to do?</h2>
-        <RouterLink title="View your workouts" class="router-button" to="/workouts">
+        <RouterLink title="View your workouts" class="router-button" to="/workouts/all">
             <button>View Workouts</button>
         </RouterLink>
     </div>

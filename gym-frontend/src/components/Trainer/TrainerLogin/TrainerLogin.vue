@@ -42,7 +42,7 @@ const setTrainerLoginDetails = () => {
     return;
   }
 
-  const user = JSON.parse(selectedTrainer.value);
+  const user = selectedTrainer.value;
   store.setUser({
     id: user.id,
     name: user.name,

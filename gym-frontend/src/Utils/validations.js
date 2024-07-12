@@ -19,6 +19,10 @@ export const validateWorkout = (workout) => {
     toast.error("Please enter a valid start time.");
     return false;
   }
+  if(workout.date < new Date().toISOString().split("T")[0]){
+    toast.error("Please enter a valid date.");
+    return false;
+  }
 
   return true;
 };

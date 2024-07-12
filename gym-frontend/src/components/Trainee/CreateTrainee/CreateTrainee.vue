@@ -77,6 +77,7 @@ const onSubmit = async () => {
     emit("addedTrainee");
     if (response && !response.error) {
       toast.success(`Trainee ${response.name} created successfully`);
+      emit("addedTrainee");
       onResetForm();
     }
 };

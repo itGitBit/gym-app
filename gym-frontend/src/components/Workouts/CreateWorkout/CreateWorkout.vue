@@ -36,8 +36,6 @@
       <AddParticipants
         @changeWarningText="handleWarningText"
         @participantsSelected="updateParticipants"
-        :trainers="trainers"
-        :trainees="trainees"
         :resetSignal="resetSignal"
       />
 

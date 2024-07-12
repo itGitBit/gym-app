@@ -9,7 +9,7 @@
   <div class="add-trainee-modal" v-if="isAddingTrainee">
     <div class="overlay"></div>
     <div class="modal">
-      <CreateTrainee @traineeCreated="isAddingTrainee=false" />
+      <CreateTrainee @addedTrainee="isAddingTrainee=false" />
       <div class="input">
         <button @click="isAddingTrainee = false" class="close-modal">Close</button>
       </div>
@@ -92,7 +92,6 @@ watch(
     }
   }
 );
-
 watch(isAddingTrainer, (newVal) => {
   if (!newVal) {
     getTrainers();
@@ -158,15 +157,15 @@ const updateSelectedTrainer = (trainer) => {
     emit("changeWarningText", "");
     return;
   }
-  const trainerObj = JSON.parse(trainer);
+
   const isTrainerSelected = selectedTrainers.value.some(
-    (selectedTrainer) => selectedTrainer.id === trainerObj.id
+    (selectedTrainer) => selectedTrainer.id === trainer.id
   );
   if (isTrainerSelected) {
     emit("changeWarningText", "Trainer already selected");
     return;
   }
-  selectedTrainers.value.push(trainerObj);
+  selectedTrainers.value.push(trainer);
   emit("changeWarningText", "");
   emitParticipants();
 };

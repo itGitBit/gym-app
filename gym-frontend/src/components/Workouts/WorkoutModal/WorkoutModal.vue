@@ -19,7 +19,7 @@
           <th>Trainees</th>
           <th>Time</th>
           <th>Duration</th>
-          <th v-if="user.type==='trainer'">Actions</th>
+          <th v-if="user.type === 'trainer'">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -47,15 +47,44 @@
           <td>{{ ` ${formatWorkoutTime(workout.start_time)}` }}</td>
           <td>{{ workout.duration_in_minutes }} minutes</td>
           <td>
-            <RouterLink v-if="user.type==='trainer'"
+            <RouterLink
+              v-if="user.type === 'trainer'"
               :to="{ name: 'UpdateWorkout', params: { workoutId: workout.id } }"
-              ><button>Edit</button></RouterLink
+              ><button :class="{'':true, 'gray-button':!(
+                user.type === 'trainer' &&
+                workout.date >= new Date().toISOString().split('T')[0]
+              
+              )}"
+              :disabled="
+                !(
+                  user.type === 'trainer' &&
+                  workout.date >= new Date().toISOString().split('T')[0]
+                )
+              " >Edit</button></RouterLink
             >
-            <button v-if="user.type==='trainer'"
+            <button
+              :class="{
+                'delete-button': true,
+                'gray-button': !(
+                  user.type === 'trainer' &&
+                  workout.date >= new Date().toISOString().split('T')[0]
+                ),
+              }"
+  
+              :title="
+                user.type === 'trainer' &&
+                workout.date >= new Date().toISOString().split('T')[0]
+                  ? 'Delete workout forever'
+                  : 'You can only delete workouts that are in the future'"
               @click="obliterateWorkout(workout.id)"
-              class="delete-button"
+              :disabled="
+                !(
+                  user.type === 'trainer' &&
+                  workout.date >= new Date().toISOString().split('T')[0]
+                )
+              "
             >
-              Delete
+              Delete Workout
             </button>
           </td>
         </tr>
@@ -73,7 +102,6 @@ import { ref, onMounted, defineEmits } from "vue";
 import { deleteWorkout } from "../../../Utils/apiCalls.js";
 import ParticipantList from "../ParticipantList/ParticipantList.vue";
 import { useUserStore } from "../../../stores/userStores";
-
 
 const props = defineProps({
   workouts: {
@@ -168,6 +196,14 @@ button {
 
 .delete-button:hover {
   background-color: #a71c15;
+}
+.gray-button {
+  background-color: gray;
+  color: white;
+  cursor: not-allowed;
+}
+.gray-button:hover {
+  background-color: gray;
 }
 
 .close-button {
