@@ -19,8 +19,13 @@ export const validateWorkout = (workout) => {
     toast.error("Please enter a valid start time.");
     return false;
   }
-  if(workout.date < new Date().toISOString().split("T")[0]){
+  if (workout.date < new Date().toISOString().split("T")[0]) {
     toast.error("Please enter a valid date.");
+    return false;
+  }
+
+  if (workout.trainee_ids.length > 5 * workout.trainer_ids.length) {
+    toast.error("Each trainer can have a maximum of 5 trainees per trainer.");
     return false;
   }
 

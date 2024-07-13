@@ -5,20 +5,41 @@
       <form @submit.prevent="handleSubmit" class="form-create">
         <div class="input">
           <label for="workoutDuration">Workout Duration in Minutes: </label>
-          <input v-model="workout.duration_in_minutes" type="number" id="workoutDuration" name="workoutDuration"
-            required />
+          <input
+            v-model="workout.duration_in_minutes"
+            type="number"
+            id="workoutDuration"
+            name="workoutDuration"
+            required
+          />
         </div>
         <div class="input">
           <label for="workoutDate">Workout Date</label>
-          <input v-model="workout.date" type="date" id="workoutDate" name="workoutDate" required />
+          <input
+            v-model="workout.date"
+            type="date"
+            id="workoutDate"
+            name="workoutDate"
+            required
+          />
         </div>
         <div class="input">
           <label for="workoutStartTime">Workout Start Time</label>
-          <input v-model="workout.start_time" type="time" id="workoutStartTime" name="workoutStartTime" required />
+          <input
+            v-model="workout.start_time"
+            type="time"
+            id="workoutStartTime"
+            name="workoutStartTime"
+            required
+          />
         </div>
-        <AddParticipants @changeWarningText="handleWarningText" @participantsSelected="updateParticipants"
-          :resetSignal="resetSignal" :updatedTrainers="trainersFromWorkout"
-          :updatedTrainees="traineesFromWorkout" />
+        <AddParticipants
+          @changeWarningText="handleWarningText"
+          @participantsSelected="updateParticipants"
+          :resetSignal="resetSignal"
+          :updatedTrainers="trainersFromWorkout"
+          :updatedTrainees="traineesFromWorkout"
+        />
         <div class="form-buttons">
           <p class="warning" v-if="warning">{{ warning }}</p>
           <button class="reset-button" @click="obliterateWorkout(workout.id)">
@@ -34,11 +55,17 @@
 <script setup>
 import { useRouter, useRoute } from "vue-router";
 import { ref, onMounted, watch } from "vue";
-import { getWorkoutById, updateWorkout, getAllTrainees, getAllTrainers } from "../../../Utils/apiCalls.js";
+import {
+  getWorkoutById,
+  updateWorkout,
+  getAllTrainees,
+  getAllTrainers,
+} from "../../../Utils/apiCalls.js";
 import AddParticipants from "../ParticipantAdd/ParticipantAdd.vue";
 import { validateWorkout } from "../../../Utils/validations.js";
+import { useToast } from "vue-toastification";
 
-
+const toast = useToast();
 const router = useRouter();
 const route = useRoute();
 const workoutId = route.params.workoutId;
@@ -52,7 +79,6 @@ const traineesIds = ref([]);
 const traineesFromWorkout = ref([]);
 const trainersFromWorkout = ref([]);
 
-
 const getWorkoutAndRefIt = async () => {
   workout.value = await getWorkoutById(workoutId);
   for (const trainer of workout.value.trainer_workouts) {
@@ -61,7 +87,6 @@ const getWorkoutAndRefIt = async () => {
   for (const trainee of workout.value.trainee_workouts) {
     traineesFromWorkout.value.push(trainee.trainee);
   }
-
 };
 const handleSubmit = async () => {
   const updatedWorkout = {
@@ -70,15 +95,24 @@ const handleSubmit = async () => {
     start_time: workout.value.start_time,
     duration_in_minutes: workout.value.duration_in_minutes,
     trainer_ids: trainersIds.value,
-    trainee_ids: traineesIds.value
+    trainee_ids: traineesIds.value,
   };
+ console.log(traineesFromWorkout.value)
+  if (traineesFromWorkout.value.length !== traineesIds.value.length && traineesIds.value.length === 0) {
+    toast.error("Please select at least one trainee");
+    return;
+  }
+  if (trainersFromWorkout.value.length !== trainersIds.value.length && trainersIds.value.length === 0) {
+    toast.error("Please select at least one trainer");
+    return;
+  }
   if (!validateWorkout(updatedWorkout)) {
     return;
   }
   const response = await updateWorkout(updatedWorkout);
+  toast.success("Workout updated successfully");
   router.push("/workouts/all");
-}
-
+};
 
 const getTraineesAndTrainers = async () => {
   const trainersResponse = await getAllTrainers();
@@ -99,7 +133,6 @@ const updateParticipants = ({ trainers, trainees }) => {
 onMounted(() => {
   getWorkoutAndRefIt();
   getTraineesAndTrainers();
-
 });
 </script>
 
